@@ -144,8 +144,8 @@ public class SaleStateByBuyer extends JPanel {
 		for (Sale c : list) {
 			rowCnt++;
 			data = getRowData(data, c, idx);
-			sum1 += c.getSaleAccount();
-			sum2 += c.getSalePrice();
+			sum1 += c.getSalePrice();
+			sum2 += c.getSaleAccount();
 			idx++;
 		}
 		rowCnt = idx;
@@ -165,7 +165,7 @@ public class SaleStateByBuyer extends JPanel {
 
 	private String[] checkZero(int[] temp) { // 매출합계 , 미수금 합계 가 '0'이면 -> '-'으로
 												// 출력 ,데이터 있으면 원본 출력
-		String[] rArr = new String[3];
+		String[] rArr = new String[2];
 		for (int i = 0; i < temp.length; i++) {
 			if (temp[i] == 0) {
 				rArr[i] = "-";

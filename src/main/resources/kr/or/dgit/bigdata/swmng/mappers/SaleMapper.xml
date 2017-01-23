@@ -12,11 +12,13 @@
 		ORDER BY no
 	</select>
 
+
 	<select id="selectAllSortDate" resultType="Sale">
 		SELECT
 		date,category,title,no,orderCount,sellPrice FROM sale
 		ORDER BY date, no
 	</select>
+
 
 	<select id="selectAllSortSupplier" resultType="Sale">
 		SELECT
@@ -25,11 +27,14 @@
 		BY coname,date
 	</select>
 
+
 	<select id="selectAllGroupByConame" resultType="map">
 		SELECT shopName,
 		sum(orderCount) as totalCnt FROM sale
 		group by shopName
 	</select>
+	
+	
 	<select id="selectSalesOfEach" resultType="map">
 		select shopName,sum(m)
 		as result
@@ -37,16 +42,21 @@
 		group by shopName order by result desc;
 	</select>
 
+
 	<!-- 문한추가 -->
 	<select id="selectBuyerStateSales" resultType="Sale">
 		select
 		shopName,title,orderCount,payment,sellPrice from sale order by
 		shopName
 	</select>
+	
+	
 	<select id="selectSaleshopName" resultType="Sale">
 		select distinct
 		shopName from sale order by shopName
 	</select>
+	
+	
 	<select id="selectSaleshopNameByAll" resultType="Sale"
 		parameterType="Sale">
 		select shopName,title,orderCount,payment,sellPrice
@@ -54,27 +64,30 @@
 		sale where shopName = #{shopName} order by title
 	</select>
 
+
 	<select id="selectAllForSWSalesTable" resultType="Sale">
 		select
-		title,category,coName,(orderCount*supPrice) supAmount,
-		(orderCount*sellPrice) saleAmount,
-		((orderCount*sellPrice)-(orderCount*supPrice)) saleProfits
+		title,category,coName,
+		sum(orderCount*supPrice) supAmount,
+		sum(orderCount*sellPrice) saleAmount,
+		sum((orderCount*sellPrice)-(orderCount*supPrice)) saleProfits
 		from sale
-
+		group by coName
+		ORDER BY category
 	</select>
+
 
 	<select id="selectAllForSWSalesTableByTitle" parameterType="String"
 		resultType="Sale">
-
-			select 
-			title,category,coName,
-			sum(orderCount*supPrice) supAmount, 
-			sum(orderCount*sellPrice) saleAmount, 
-			sum((orderCount*sellPrice)-(orderCount*supPrice)) saleProfits 
-			from sale 
-			where title = #{title}  
-			group by coName 
-			ORDER BY category 	
+		select
+		title,category,coName,
+		sum(orderCount*supPrice) supAmount,
+		sum(orderCount*sellPrice) saleAmount,
+		sum((orderCount*sellPrice)-(orderCount*supPrice)) saleProfits
+		from sale
+		where title = #{title}
+		group by coName
+		ORDER BY category
 	</select>
 
 
@@ -84,6 +97,7 @@
 		sale(no,shopName,title,orderCount,payment,date,supPrice,sellPrice,coName,category)
 		values(#{no},#{shopName},#{title},#{orderCount},#{payment},#{date},#{supPrice},#{sellPrice},#{coName},#{category})
 	</insert>
+
 
 	<select id="selectMaxNo" resultType="Sale">
 		SELECT MAX(no)+1 no FROM

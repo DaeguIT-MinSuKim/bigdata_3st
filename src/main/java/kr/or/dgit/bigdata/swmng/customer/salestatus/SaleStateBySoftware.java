@@ -196,7 +196,6 @@ public class SaleStateBySoftware extends JPanel {
 		} else {
 			comboBox.setEnabled(UNCHECK); // 콤보박스 사용불가
 			checkBox.setSelected(true);// 체크박스 체크
-
 			list = SaleService.getInstance().selectAllForSWSalesTable(); // SW별 판매현황 모두 출력
 		}
 		return list;
@@ -212,13 +211,13 @@ public class SaleStateBySoftware extends JPanel {
 	}
 
 	private String[][] getRowData(String[][] data, Sale s, int idx) { // 각 행 해당하는 데이터 가져오기
+		
 		data[idx][0] = s.getTitle();
 		data[idx][1] = s.getCategory();
 		data[idx][2] = s.getCoName();
 		data[idx][3] = String.format("%,d", s.getSupAmount()) + "원";
 		data[idx][4] = String.format("%,d", s.getSaleAmount()) + "원";
 		data[idx][5] = String.format("%,d", s.getSaleProfits()) + "원";
-
 		return data;
 	}
 

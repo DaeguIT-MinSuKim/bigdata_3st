@@ -24,20 +24,21 @@ public class Sale {
 	private int saleAmount;// 판매금액
 	private int saleProfits;//판매이윤
 
-
 	
-
-	/*@Override
-	public String toString() {
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		return String.format("Sale [no=%s, shopName=%s, title=%s, orderCount=%s, payment=%s, date=%s]", no, shopName,
-				title, orderCount, payment, format.format(date));
-	}*/
-
+	public Sale() {}
 	
-
-	public Sale(int no, String shopName, String title, int orderCount, boolean payment, Date date, int supPrice,
-			int sellPrice, String coName) {
+	public Sale(int no, String shopName, String title, int orderCount, boolean payment, Date date) {
+		this.no = no;
+		this.shopName = shopName;
+		this.title = title;
+		this.orderCount = orderCount;
+		this.payment = payment;
+		this.date = date;
+	}
+	
+	public Sale(int no, String shopName, String title, int orderCount, boolean payment, 
+				Date date, int supPrice,int sellPrice, String coName) {
+		
 		this.no = no;
 		this.shopName = shopName;
 		this.title = title;
@@ -50,8 +51,9 @@ public class Sale {
 	}
 
 	
-	public Sale(int no, String shopName, String title, int orderCount, boolean payment, Date date, int supPrice,
-			int sellPrice, String coName, String category) {
+	public Sale(int no, String shopName, String title, int orderCount, boolean payment,
+				Date date, int supPrice,int sellPrice, String coName, String category) {
+		
 		this.no = no;
 		this.shopName = shopName;
 		this.title = title;
@@ -73,146 +75,60 @@ public class Sale {
 				supAmount, saleAmount, saleProfits);
 	}
 
+
+	public int getNo() {return no;}
+	public void setNo(int no) {this.no = no;}
 	
-	public Sale(int no, String shopName, String title, int orderCount, boolean payment, Date date) {
-		this.no = no;
-		this.shopName = shopName;
-		this.title = title;
-		this.orderCount = orderCount;
-		this.payment = payment;
-		this.date = date;
-	}
+	public String getCategory() {return category;}
+	public void setCategory(String category) {this.category = category;}
 
-	public Sale() {}
+	public String getShopName() {return shopName;}
+	public void setShopName(String shopName) {this.shopName = shopName;}
 
-	public int getNo() {
-		return no;
-	}
+	public String getTitle() {return title;}
+	public void setTitle(String title) {this.title = title;}
 
-	public void setNo(int no) {
-		this.no = no;
-	}
+	public int getOrderCount() {return orderCount;}
+	public void setOrderCount(int orderCount) {this.orderCount = orderCount;}
 
-	public String getCategory() {
-		return category;
-	}
+	public boolean isPayment() {return !payment;}
+	public void setPayment(boolean payment) {this.payment = payment;}
 
-	public void setCategory(String category) {
-		this.category = category;
-	}
+	public Date getDate() {return date;}
+	public void setDate(Date date) {this.date = date;}
 
-	public String getShopName() {
-		return shopName;
-	}
+	public int getSupPrice() {return supPrice;}
+	public void setSupPrice(int supPrice) {this.supPrice = supPrice;}
 
-	public void setShopName(String shopName) {
-		this.shopName = shopName;
-	}
+	public int getSellPrice() {return sellPrice;}
+	public void setSellPrice(int sellPrice) {this.sellPrice = sellPrice;}
 
-	public String getTitle() {
-		return title;
-	}
+	public String getCoName() {return coName;}
+	public void setCoName(String coName) {this.coName = coName;}
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public int getOrderCount() {
-		return orderCount;
-	}
-
-	public void setOrderCount(int orderCount) {
-		this.orderCount = orderCount;
-	}
-
-	public boolean isPayment() {
-		return !payment;
-	}
-
-	public void setPayment(boolean payment) {
-		this.payment = payment;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public int getSupPrice() {
-		return supPrice;
-	}
-
-	public void setSupPrice(int supPrice) {
-		this.supPrice = supPrice;
-	}
-
-	public int getSellPrice() {
-		return sellPrice;
-	}
-
-	public void setSellPrice(int sellPrice) {
-		this.sellPrice = sellPrice;
-	}
-
-	public String getCoName() {
-		return coName;
-	}
-
-	public void setCoName(String coName) {
-		this.coName = coName;
-	}
-
+	
 	public int getSalePrice() {
 		salePrice = orderCount*sellPrice;
 		return salePrice;
 	}
+	public void setSalePrice(int salePrice) {this.salePrice = salePrice;}
 
-	public void setSalePrice(int salePrice) {
-		this.salePrice = salePrice;
-	}
-
+	
 	public int getSaleAccount() {
 		if(!isPayment()){
 			saleAccount = orderCount*sellPrice;
 		}
-		
 		return saleAccount;
 	}
+	public void setSaleAccount(int saleAccount) {this.saleAccount = saleAccount;}
 
-	public void setSaleAccount(int saleAccount) {
-		this.saleAccount = saleAccount;
-	}
+	
+	public int getSupAmount() {return supAmount;}
+	public void setSupAmount(int supAmount) {this.supAmount = supAmount;}
 
+	public int getSaleAmount() {return saleAmount;}
+	public void setSaleAmount(int saleAmount) {this.saleAmount = saleAmount;}
 
-	public int getSupAmount() {
-		return supAmount;
-	}
-
-
-	public void setSupAmount(int supAmount) {
-		this.supAmount = supAmount;
-	}
-
-
-	public int getSaleAmount() {
-		return saleAmount;
-	}
-
-
-	public void setSaleAmount(int saleAmount) {
-		this.saleAmount = saleAmount;
-	}
-
-
-	public int getSaleProfits() {
-		return saleProfits;
-	}
-
-
-	public void setSaleProfits(int saleProfits) {
-		this.saleProfits = saleProfits;
-	}
+	public int getSaleProfits() {return saleProfits;}
+	public void setSaleProfits(int saleProfits) {this.saleProfits = saleProfits;}
 }
