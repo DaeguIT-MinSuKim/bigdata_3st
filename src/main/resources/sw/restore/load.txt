@@ -1,0 +1,5 @@
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/backUpFolder/company.txt' INTO TABLE company FIELDS TERMINATED BY ',' ENCLOSED BY '`' LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/backUpFolder/software.txt' INTO TABLE software FIELDS TERMINATED BY ',' ENCLOSED BY '`' LINES TERMINATED BY '\n' (no,category,title,supprice,sellprice,coname);
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/backUpFolder/buyer.txt' INTO TABLE buyer FIELDS TERMINATED BY ',' ENCLOSED BY '`' LINES TERMINATED BY '\n'(no,shopname,address,tel);
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/backUpFolder/sale.txt' INTO TABLE sale FIELDS TERMINATED BY ',' ENCLOSED BY '`' LINES TERMINATED BY '\n';
+LOAD DATA LOCAL INFILE 'C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/backUpFolder/member.txt' INTO TABLE member FIELDS TERMINATED BY ',' ENCLOSED BY '`' LINES TERMINATED BY '\n' (id,password,email);
