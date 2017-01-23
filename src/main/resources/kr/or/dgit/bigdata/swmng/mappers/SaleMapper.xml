@@ -3,54 +3,26 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- DAO인터페이스 연결 -->
 <mapper namespace="kr.or.dgit.bigdata.swmng.mappers.SaleMapper">
-	<resultMap type="Sale" id="SaleResult">
-		<id property="no" column="no" />
-		<result property="orderCount" column="orderCount" />
-		<result property="payment" column="payment" />
-		<result property="date" column="date" />
-		<association property="shopName" javaType="Buyer"
-			resultMap="kr.or.dgit.bigdata.swmng.mappers.BuyerMapper.buyerResult" />
-		<association property="title"
-			resultMap="kr.or.dgit.bigdata.swmng.mappers.SoftwareMapper.softwareResult" />
-	</resultMap>
 
-	<!-- 쿼리문을 연결할 변수(ID)생성후 DTO(ID)와 연결 -->
-	<select id="selectAll" resultType="Sale" resultMap="SaleResult">
-		SELECT sa.*, so.*,b.* FROM sale sa,software so ,buyer b WHERE sa.shopName 
-			= b.shopName and sa.title = so.title ORDER BY sa.no
-	</select>
-	<select id="selectAllOrderByCategory" resultType="Sale" resultMap="SaleResult">
-		SELECT sa.*, so.*,b.* FROM sale sa,software so ,buyer b WHERE sa.shopName 
-			= b.shopName and sa.title = so.title ORDER BY so.category
-	</select>
-	<select id="selectAllOrderByTitle" resultType="Sale" resultMap="SaleResult">
-		SELECT sa.*, so.*,b.* FROM sale sa,software so ,buyer b WHERE sa.shopName 
-			= b.shopName and sa.title = so.title ORDER BY so.title
-	</select>
-	
-	<select id="selectAllOrderByBuyer" resultType="Sale" resultMap="SaleResult">
-		SELECT sa.*, so.*,b.* FROM sale sa,software so ,buyer b WHERE sa.shopName 
-			= b.shopName and sa.title = so.title ORDER BY sa.shopname
-	</select>
-	<select id="selectMaxNo" parameterType="int" resultType="Sale">
+	<select id="selectBetweenDates" resultType="Sale">
 		SELECT
-		MAX(no)+1 no FROM sale
+		no,shopName,title,orderCount,payment,date FROM sale
+		WHERE date &gt;=
+		#{param1} and date &lt;=#{param2}
+		ORDER BY no
 	</select>
 
-	<select id="selectAllSortDate" resultType="Sale" resultMap="SaleResult">
+	<select id="selectAllSortDate" resultType="Sale">
 		SELECT
-		sa.*, so.*,b.* FROM sale sa,software so ,buyer b
-		WHERE
-		sa.shopName = b.shopName and sa.title = so.title
-		ORDER BY date, sa.no
+		date,category,title,no,orderCount,sellPrice FROM sale
+		ORDER BY date, no
 	</select>
 
-	<select id="selectAllSortSupplier" resultType="Sale" resultMap="SaleResult">
+	<select id="selectAllSortSupplier" resultType="Sale">
 		SELECT
-		sa.*, so.*,b.* FROM sale sa,software so ,buyer b
-		WHERE
-		sa.shopName = b.shopName and sa.title = so.title
-		ORDER BY coname,date
+		coName,date,shopName,title,category,orderCount,supPrice
+		FROM sale ORDER
+		BY coname,date
 	</select>
 
 	<select id="selectAllGroupByConame" resultType="map">
@@ -58,21 +30,58 @@
 		sum(orderCount) as totalCnt FROM sale
 		group by shopName
 	</select>
+	<select id="selectSalesOfEach" resultType="map">
+		select shopName,sum(m)
+		as result
+		from (select shopname,orderCount*sellPrice m from sale) temp
+		group by shopName order by result desc;
+	</select>
 
-	<select id="selectBetweenDates" resultMap="SaleResult">
-		select sa.*, so.*,b.* FROM sale sa,software so ,buyer b
-		WHERE sa.shopName = b.shopName and sa.title = so.title	
-		and date &gt;= #{param1} and date &lt;=#{param2}
-		ORDER BY sa.no
-		
+	<!-- 문한추가 -->
+	<select id="selectBuyerStateSales" resultType="Sale">
+		select
+		shopName,title,orderCount,payment,sellPrice from sale order by
+		shopName
+	</select>
+	<select id="selectSaleshopName" resultType="Sale">
+		select distinct
+		shopName from sale order by shopName
+	</select>
+	<select id="selectSaleshopNameByAll" resultType="Sale"
+		parameterType="Sale">
+		select shopName,title,orderCount,payment,sellPrice
+		from
+		sale where shopName = #{shopName} order by title
 	</select>
 	
-	<insert id="insertItem" parameterType="Sale">
-		INSERT INTO
-		sale(no,shopname,title,ordercount,payment,date) VALUES(
-		#{no},#{shopName2},#{title2},#{orderCount},#{payment},#{date})
+	<select id="selectAllForSWSalesTable" resultType="Sale">
+		select
+		title,category,coName,(orderCount*supPrice) supplyMony,
+		(orderCount*sellPrice) sellMony,
+		((orderCount*sellPrice)-(orderCount*supPrice)) sellProfits
+		from sale
+
+	</select>
+	
+	<select id="selectAllForSWSalesTableByTitle" parameterType="String" resultType="Sale">
+		select
+		title,category,coName,(orderCount*supPrice) supplyMony,
+		(orderCount*sellPrice) sellMony,
+		((orderCount*sellPrice)-(orderCount*supPrice)) sellProfits
+		from sale
+		where title = #{title} ORDER BY category
+	</select>
+	
+	
+	<!-- 경아꺼 -->
+		<insert id="insertItem" parameterType="Sale">
+		insert into sale(no,shopName,title,orderCount,payment,date,supPrice,sellPrice,coName,category) 
+		values(#{no},#{shopName},#{title},#{orderCount},#{payment},#{date},#{supPrice},#{sellPrice},#{coName},#{category})
 	</insert>
 	
-
+	<select id="selectMaxNo" resultType="Sale">
+		SELECT MAX(no)+1 no FROM sale
+	</select>
+	
 
 </mapper> 

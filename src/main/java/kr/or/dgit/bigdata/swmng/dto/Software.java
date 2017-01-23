@@ -1,5 +1,7 @@
 package kr.or.dgit.bigdata.swmng.dto;
 
+import java.util.Arrays;
+
 public class Software {
 	private int no;
 	private String category;
@@ -10,6 +12,52 @@ public class Software {
 	private Company coName;
 	private String coName2;
 	
+
+	//곽문한 추가↓//	
+	private int supplyMony;
+	private int sellMony;
+	private int sellProfits;
+	private Sale orderCount;
+
+	public int getSupplyMony() {
+		return supplyMony;
+	}
+
+
+	public void setSupplyMony(int supplyMony) {
+		this.supplyMony = supplyMony;
+	}
+
+
+	public int getSellMony() {
+		return sellMony;
+	}
+
+
+	public void setSellMony(int sellMony) {
+		this.sellMony = sellMony;
+	}
+
+
+	public int getSellProfits() {
+		return sellProfits;
+	}
+
+
+	public void setSellProfits(int sellProfits) {
+		this.sellProfits = sellProfits;
+	}
+
+
+	public Sale getOrderCount() {
+		return orderCount;
+	}
+
+
+	public void setOrderCount(Sale orderCount) {
+		this.orderCount = orderCount;
+	}
+
 
 	public Software(int no, String category, String title, int supPrice, int sellPrice, String coName2) {
 		this.no = no;
@@ -30,16 +78,24 @@ public class Software {
 		this.picPath = picPath;
 	}
 
-	@Override
+/*	@Override
 	public String toString() {
 		return String.format("공급회사 [순번:%s, 분류:%s, 프로그램:%s, 공급가:%s, 판매가:%s, 공급회사:%s]", no, category, title, supPrice,
 				sellPrice, coName);
-	}
+	}*/
 
 	public Software() {
 		super();
 		// TODO Auto-generated constructor stub
 	}
+
+	@Override
+	public String toString() {
+		return String.format(
+				"Software [no=%s, category=%s, title=%s, picPath=%s, supPrice=%s, sellPrice=%s, coName=%s]", no,
+				category, title, Arrays.toString(picPath), supPrice, sellPrice, coName);
+	}
+
 
 	public Software(int no, String category, String title, byte[] picPath, int supPrice, int sellPrice,
 			String coName2) {

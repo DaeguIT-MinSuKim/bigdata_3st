@@ -30,6 +30,7 @@ public class BuyerService implements BuyerMapper<Buyer> {
 		BuyerMapper<Buyer> buyerDao = sqlSession.getMapper(BuyerMapper.class);
 		try {
 			buyerDao.insertItem(item);
+		
 			sqlSession.commit(); // mybatis는 오토커밋이 안됨 수동커밋.
 		} finally {
 			

@@ -70,7 +70,17 @@ public class SaleService implements SaleMapper<Sale> {
 			sqlSession.close();
 		}
 	}
-
+	@Override
+	public List<Map<String, Object>> selectSalesOfEach() {
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SaleMapper saleDao = sqlSession.getMapper(SaleMapper.class);
+		try {
+			List<Map<String, Object>> returnList = saleDao.selectSalesOfEach();
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
 	@Override
 	public Sale selectMaxNo() {
 		SqlSession sqlSession = MybatisSessionFactory.openSession();
@@ -166,6 +176,102 @@ public class SaleService implements SaleMapper<Sale> {
 			List<Sale> returnList = saleDao.selectBetweenDates(former,latter);
 			if (logger.isDebugEnabled()) {
 				logger.debug("selectBetweenDates() - end");
+			}
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
+	@Override
+	public List<Sale> selectBuyerStateSales() {
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("selectBuyerStateSales() - start");
+		}
+
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SaleMapper saleDao = sqlSession.getMapper(SaleMapper.class);
+		try {
+			List<Sale> returnList = saleDao.selectBuyerStateSales();
+			if (logger.isDebugEnabled()) {
+				logger.debug("selectBuyerStateSales() - end");
+			}
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public List<Sale> selectSaleshopName() {
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("selectSaleshopName() - start");
+		}
+
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SaleMapper saleDao = sqlSession.getMapper(SaleMapper.class);
+		try {
+			List<Sale> returnList = saleDao.selectSaleshopName();
+			if (logger.isDebugEnabled()) {
+				logger.debug("selectSaleshopName() - end");
+			}
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public List<Sale> selectSaleshopNameByAll(Sale sale) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("selectSaleshopNameByAll() - start");
+		}
+
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SaleMapper saleDao = sqlSession.getMapper(SaleMapper.class);
+		try {
+			List<Sale> returnList = saleDao.selectSaleshopNameByAll(sale);
+			if (logger.isDebugEnabled()) {
+				logger.debug("selectSaleshopNameByAll() - end");
+			}
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public List<Sale> selectAllForSWSalesTable() {
+		if (logger.isDebugEnabled()) {
+			logger.debug("selectAllForSWSalesTable() - start");
+		}
+
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SaleMapper saleDao = sqlSession.getMapper(SaleMapper.class);
+		try {
+			List<Sale> returnList = saleDao.selectAllForSWSalesTable();
+			if (logger.isDebugEnabled()) {
+				logger.debug("selectAllForSWSalesTable() - end");
+			}
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public List<Sale> selectAllForSWSalesTableByTitle(String selectedTitle) {
+		if (logger.isDebugEnabled()) {
+			logger.debug("selectAllForSWSalesTableByTitle() - start");
+		}
+
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SaleMapper saleDao = sqlSession.getMapper(SaleMapper.class);
+		try {
+			List<Sale> returnList = saleDao.selectAllForSWSalesTableByTitle(selectedTitle);
+			if (logger.isDebugEnabled()) {
+				logger.debug("selectAllForSWSalesTableByTitle() - end");
 			}
 			return returnList;
 		} finally {

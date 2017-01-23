@@ -131,5 +131,66 @@ public class SoftwareService implements SoftwareMapper<Software> {
 			sqlSession.close();
 		}
 	}
+	@Override
+	public List<Software> softwareViewAll() {
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SoftwareMapper softwareDao = sqlSession.getMapper(SoftwareMapper.class);
+		try {
+			List<Software> returnList = softwareDao.softwareViewAll();
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public List<Software> softwareViewBytitle(Software software) {
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SoftwareMapper softwareDao = sqlSession.getMapper(SoftwareMapper.class);
+		try {
+			List<Software> returnList = softwareDao.softwareViewBytitle(software);
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public List<Software> selectSoftwareBytitle() {
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SoftwareMapper softwareDao = sqlSession.getMapper(SoftwareMapper.class);
+		try {
+			List<Software> returnList = softwareDao.selectSoftwareBytitle();
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public Software selectSWBytitle(String title) {
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SoftwareMapper softwareDao = sqlSession.getMapper(SoftwareMapper.class);
+		try {
+			Software software = softwareDao.selectSWBytitle(title);
+			return software;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+	@Override
+	public Software selectAllByTitle(String title) {
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SoftwareMapper softwareDao = sqlSession.getMapper(SoftwareMapper.class);
+		try {
+			Software software = softwareDao.selectAllByTitle(title);
+			return software;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
+
 
 }

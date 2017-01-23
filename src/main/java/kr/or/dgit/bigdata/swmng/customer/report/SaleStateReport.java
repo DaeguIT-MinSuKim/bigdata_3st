@@ -1,4 +1,4 @@
-package kr.or.dgit.bigdata.swmng.customer.submenu;
+package kr.or.dgit.bigdata.swmng.customer.report;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -28,7 +28,7 @@ import kr.or.dgit.bigdata.swmng.service.SaleService;
 import kr.or.dgit.bigdata.swmng.util.ModelForTable;
 
 @SuppressWarnings("serial")
-public class ReportPanel extends JPanel implements ActionListener {
+public class SaleStateReport extends JPanel implements ActionListener {
 	private JRadioButton rdTotalSale;
 	private JRadioButton rdTradeDetail;
 	private JPanel panelForTable;
@@ -36,7 +36,7 @@ public class ReportPanel extends JPanel implements ActionListener {
 	private JScrollPane scrollPane;
 	private ModelForTable mft;
 
-	public ReportPanel() {
+	public SaleStateReport() {
 		try {
 			UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel");
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
@@ -118,14 +118,13 @@ public class ReportPanel extends JPanel implements ActionListener {
 				data[idx][0] = date;
 				beforeDate = date;
 			}
-
-			// data[idx][0] = format.format(c.getDate());
-			data[idx][1] = c.getTitle().getCategory();
-			data[idx][2] = c.getTitle().getTitle();
+			
+			data[idx][1] = c.getCategory();
+			data[idx][2] = c.getTitle();
 			data[idx][3] = c.getNo() + "";
 			data[idx][4] = String.format("%,d", c.getOrderCount());
-			data[idx][5] = String.format("%,d", (c.getOrderCount() * c.getTitle().getSellPrice()));
-			total += c.getOrderCount() * c.getTitle().getSellPrice();
+			data[idx][5] = String.format("%,d", (c.getOrderCount() * c.getSellPrice()));
+			total += c.getOrderCount() * c.getSellPrice();
 			idx++;
 		}
 		idx++;
@@ -152,11 +151,11 @@ public class ReportPanel extends JPanel implements ActionListener {
 		String beforeConame = "";
 		for (Sale c : reportlist) {
 			int orderCnt = c.getOrderCount();
-			int supPrice = c.getTitle().getSupPrice();
+			int supPrice = c.getSupPrice();
 			int cost = orderCnt * supPrice;
 			int tax = (int) (cost * 0.1);
 
-			String coname = c.getTitle().getCoName().getCoName();
+			String coname = c.getCoName();
 			if (beforeConame.equals(coname)) {
 				data[idx][0] = "-";
 			} else {
@@ -164,8 +163,8 @@ public class ReportPanel extends JPanel implements ActionListener {
 				beforeConame = coname;
 			}
 			data[idx][1] = format.format(c.getDate());
-			data[idx][2] = c.getShopName().getShopName();
-			data[idx][3] = c.getTitle().getTitle();
+			data[idx][2] = c.getShopName();
+			data[idx][3] = c.getTitle();
 			data[idx][4] = String.format("%,d", orderCnt);
 			data[idx][5] = String.format("%,d", supPrice);
 			data[idx][6] = String.format("%,d", (cost));

@@ -1,4 +1,4 @@
-package kr.or.dgit.bigdata.swmng.list;
+package kr.or.dgit.bigdata.swmng.customer.list;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -19,14 +20,15 @@ import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.SoftBevelBorder;
 
-import kr.or.dgit.bigdata.swmng.customer.SoftwareRegEdit;
+import kr.or.dgit.bigdata.swmng.customer.member.LoginForm;
+import kr.or.dgit.bigdata.swmng.customer.regedit.SoftwareRegEdit;
 import kr.or.dgit.bigdata.swmng.dto.Software;
 import kr.or.dgit.bigdata.swmng.service.SoftwareService;
 import kr.or.dgit.bigdata.swmng.util.ModelForTable;
 
-@SuppressWarnings("serial")
 public class SoftwareList extends JPanel implements ActionListener, ListInterface {
 	private JButton btnAdd;
 	private JButton btnUpdate;
@@ -35,6 +37,7 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 	private JPanel listPanel;
 
 	public SoftwareList() {
+
 		setLayout(new BorderLayout(0, 0));
 
 		JLabel listTitle = new JLabel("소프트웨어 목록");
@@ -47,40 +50,46 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 		add(listPanel, BorderLayout.CENTER);
 		listPanel.setLayout(new BorderLayout(0, 0));
 
-		JPanel BtnPanel = new JPanel();
-		add(BtnPanel, BorderLayout.SOUTH);
+		JPanel btnPanel = new JPanel();
+		add(btnPanel, BorderLayout.SOUTH);
 		GridBagLayout gbl_BtnPanel = new GridBagLayout();
-		gbl_BtnPanel.columnWidths = new int[] { 0, 0, 0, 0 };
+		gbl_BtnPanel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
 		gbl_BtnPanel.rowHeights = new int[] { 0, 0 };
-		gbl_BtnPanel.columnWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_BtnPanel.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_BtnPanel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
-		BtnPanel.setLayout(gbl_BtnPanel);
+		btnPanel.setLayout(gbl_BtnPanel);
 
 		btnAdd = new JButton("등록");
 		btnAdd.addActionListener(this);
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-		gbc_btnAdd.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnAdd.anchor = GridBagConstraints.EAST;
 		gbc_btnAdd.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAdd.gridx = 0;
 		gbc_btnAdd.gridy = 0;
-		BtnPanel.add(btnAdd, gbc_btnAdd);
+		btnPanel.add(btnAdd, gbc_btnAdd);
 
 		btnUpdate = new JButton("수정");
 		btnUpdate.addActionListener(this);
 		GridBagConstraints gbc_btnUpdate = new GridBagConstraints();
-		gbc_btnUpdate.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnUpdate.anchor = GridBagConstraints.EAST;
 		gbc_btnUpdate.insets = new Insets(0, 0, 0, 5);
 		gbc_btnUpdate.gridx = 1;
 		gbc_btnUpdate.gridy = 0;
-		BtnPanel.add(btnUpdate, gbc_btnUpdate);
+		btnPanel.add(btnUpdate, gbc_btnUpdate);
 
 		btnDel = new JButton("삭제");
 		btnDel.addActionListener(this);
 		GridBagConstraints gbc_btnDel = new GridBagConstraints();
-		gbc_btnDel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDel.anchor = GridBagConstraints.WEST;
 		gbc_btnDel.gridx = 2;
 		gbc_btnDel.gridy = 0;
-		BtnPanel.add(btnDel, gbc_btnDel);
+		btnPanel.add(btnDel, gbc_btnDel);
+		if (new LoginForm().getMemberId().equals("admin")) {
+			btnPanel.setVisible(true);
+		} else {
+			btnPanel.setVisible(false);
+		}
 
 		createList();
 
@@ -114,6 +123,7 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 		case "등록":
 			// 등록버튼 클릭시 등록화면 호출
 			refresh(new SoftwareRegEdit(e.getActionCommand(), 0));
+			getTopLevelAncestor().setSize(600, 400);
 			break;
 		case "수정":
 			// 테이블리스트에서 선택한 항목 있을시 수정화면 호출
@@ -122,6 +132,7 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 			} else {
 				int flag = Integer.parseInt(softwareList.getValueAt(softwareList.getSelectedRow(), 0) + "");
 				refresh(new SoftwareRegEdit(e.getActionCommand(), flag));
+				getTopLevelAncestor().setSize(600, 400);
 			}
 			break;
 		case "삭제":
@@ -139,15 +150,15 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 	public void createList() {
 		// 리스트 생성
 		List<Software> list = SoftwareService.getInstance().selectAll();
-		String[] COL_NAMES = { "품목번호", "분류명", "품목명", "공급가격", "판매가격", "공급회사명", "품목사진" };
+		String[] COL_NAMES = { "품번", "분류명", "품목명", "공급가격", "판매가격", "공급회사명", "비고" };
 		Object[][] data = new Object[list.size()][COL_NAMES.length];
 		int idx = 0;
 		for (Software s : list) {
 			data[idx][0] = s.getNo() + "";
 			data[idx][1] = s.getCategory();
 			data[idx][2] = s.getTitle();
-			data[idx][3] = String.format("%,d", s.getSupPrice());
-			data[idx][4] = String.format("%,d", s.getSellPrice());
+			data[idx][3] = String.format("%,d", s.getSupPrice()) + "원";
+			data[idx][4] = String.format("%,d", s.getSellPrice()) + "원";
 			data[idx][5] = s.getCoName().getCoName();
 			// 데이터베이스 이미지값이 없을시 공백으로 입력
 			if (s.getPicPath() == null) {
@@ -157,7 +168,6 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 				data[idx][6] = new ImageIcon(new ImageIcon((byte[]) s.getPicPath()).getImage().getScaledInstance(30, 30,
 						java.awt.Image.SCALE_SMOOTH));
 			}
-
 			idx++;
 		}
 		// 테이블 모델 생성
@@ -174,15 +184,12 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 
 		mft.resizeColumnHeight(softwareList);
 		mft.resizeColumnWidth(softwareList);
-
 		mft.tableHeaderAlignment(softwareList);
-
-		mft.tableCellAlignment(softwareList, SwingConstants.CENTER, 0, 1, 2, 3);
-		mft.tableCellAlignment(softwareList, SwingConstants.RIGHT, 4, 5);
+		mft.tableCellAlignment(softwareList, SwingConstants.CENTER, 0, 1, 2, 5);
+		mft.tableCellAlignment(softwareList, SwingConstants.RIGHT, 3, 4);
 
 		softwareList.setModel(mft);
 		softwareList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-
 		softwareList.setFont(softwareList.getFont().deriveFont(12.0f));
 
 		listPanel.add(new JScrollPane(softwareList));

@@ -5,53 +5,115 @@ import java.util.Date;
 
 public class Sale {
 	private int no;
-	private Buyer shopName;
-	private String shopName2;
-	private Software title;
-	private String title2;
+	private String shopName;
+	private String title;
 	private int orderCount;
 	private boolean payment;
 	private Date date;
+	private int supPrice;
+	private int sellPrice;
+	private String coName;
+	private String category;
+
+	// 곽문한 추가↓//
+	private int sales;
+	private int notmoney;
+	private int supplyMony;
+	private int sellMony;
+	private int sellProfits;
+
+	public int getSupplyMony() {
+		return supplyMony;
+	}
+
+	public void setSupplyMony(int supplyMony) {
+		this.supplyMony = supplyMony;
+	}
+
+	public int getSellMony() {
+		return sellMony;
+	}
+
+	public void setSellMony(int sellMony) {
+		this.sellMony = sellMony;
+	}
+
+	public int getSellProfits() {
+		return sellProfits;
+	}
+
+	public void setSellProfits(int sellProfits) {
+		this.sellProfits = sellProfits;
+	}
+
+	public int getSales() {
+		sales = orderCount*sellPrice;
+		
+		return sales;
+	}
+
+	public void setSales(int sales) {
+		this.sales = sales;
+	}
+
+	public int getNotmoney() {
+		if(!isPayment()){
+			notmoney = orderCount*sellPrice;
+		}
+		return notmoney;
+	}
+
+	public void setNotmoney(int notmoney) {
+		this.notmoney = notmoney;
+	}
+
+	/*@Override
+	public String toString() {
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		return String.format("Sale [no=%s, shopName=%s, title=%s, orderCount=%s, payment=%s, date=%s]", no, shopName,
+				title, orderCount, payment, format.format(date));
+	}*/
 
 	
-	public Sale(int no, String shopName2, String title2, int orderCount, boolean payment, Date date) {
+	public Sale(int no, String shopName, String title, int orderCount, boolean payment, Date date, int supPrice,
+			int sellPrice, String coName) {
 		this.no = no;
-		this.shopName2 = shopName2;
-		this.title2 = title2;
+		this.shopName = shopName;
+		this.title = title;
 		this.orderCount = orderCount;
 		this.payment = payment;
 		this.date = date;
+		this.supPrice = supPrice;
+		this.sellPrice = sellPrice;
+		this.coName = coName;
 	}
-
-	public String getShopName2() {
-		return shopName2;
-	}
-
-	public void setShopName2(String shopName2) {
-		this.shopName2 = shopName2;
-	}
-
-	public String getTitle2() {
-		return title2;
-	}
-
-	public void setTitle2(String title2) {
-		this.title2 = title2;
-	}
-
 
 	
+	public Sale(int no, String shopName, String title, int orderCount, boolean payment, Date date, int supPrice,
+			int sellPrice, String coName, String category) {
+		this.no = no;
+		this.shopName = shopName;
+		this.title = title;
+		this.orderCount = orderCount;
+		this.payment = payment;
+		this.date = date;
+		this.supPrice = supPrice;
+		this.sellPrice = sellPrice;
+		this.coName = coName;
+		this.category = category;
+	}
 
 	@Override
 	public String toString() {
-		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-		
-		return String.format("Sale [no=%s, shopName=%s, title=%s, orderCount=%s, payment=%s, date=%s]", no, shopName.getShopName(),
-				title.getTitle(), orderCount, payment, format.format(date));
+		return String.format(
+				"Sale [no=%s, shopName=%s, title=%s, orderCount=%s, payment=%s, date=%s, supPrice=%s, sellPrice=%s, coName=%s, category=%s, sales=%s, notmoney=%s, supplyMony=%s, sellMony=%s, sellProfits=%s]",
+				no, shopName, title, orderCount, payment,  format.format(date), supPrice, sellPrice, coName, category, sales, notmoney,
+				supplyMony, sellMony, sellProfits);
 	}
 
-	public Sale(int no, Buyer shopName, Software title, int orderCount, boolean payment, Date date) {
+	
+	public Sale(int no, String shopName, String title, int orderCount, boolean payment, Date date) {
 		this.no = no;
 		this.shopName = shopName;
 		this.title = title;
@@ -60,10 +122,7 @@ public class Sale {
 		this.date = date;
 	}
 
-	public Sale() {
-		super();
-		// TODO Auto-generated constructor stub
-	}
+	public Sale() {}
 
 	public int getNo() {
 		return no;
@@ -73,19 +132,27 @@ public class Sale {
 		this.no = no;
 	}
 
-	public Buyer getShopName() {
+	public String getCategory() {
+		return category;
+	}
+
+	public void setCategory(String category) {
+		this.category = category;
+	}
+
+	public String getShopName() {
 		return shopName;
 	}
 
-	public void setShopName(Buyer shopName) {
+	public void setShopName(String shopName) {
 		this.shopName = shopName;
 	}
 
-	public Software getTitle() {
+	public String getTitle() {
 		return title;
 	}
 
-	public void setTitle(Software title) {
+	public void setTitle(String title) {
 		this.title = title;
 	}
 
@@ -98,7 +165,7 @@ public class Sale {
 	}
 
 	public boolean isPayment() {
-		return payment;
+		return !payment;
 	}
 
 	public void setPayment(boolean payment) {
@@ -111,6 +178,30 @@ public class Sale {
 
 	public void setDate(Date date) {
 		this.date = date;
+	}
+
+	public int getSupPrice() {
+		return supPrice;
+	}
+
+	public void setSupPrice(int supPrice) {
+		this.supPrice = supPrice;
+	}
+
+	public int getSellPrice() {
+		return sellPrice;
+	}
+
+	public void setSellPrice(int sellPrice) {
+		this.sellPrice = sellPrice;
+	}
+
+	public String getCoName() {
+		return coName;
+	}
+
+	public void setCoName(String coName) {
+		this.coName = coName;
 	}
 
 }
