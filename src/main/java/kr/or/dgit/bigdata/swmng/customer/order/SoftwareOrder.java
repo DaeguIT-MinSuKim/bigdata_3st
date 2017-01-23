@@ -9,8 +9,6 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -29,9 +27,6 @@ import javax.swing.SwingConstants;
 import org.jdatepicker.impl.JDatePanelImpl;
 import org.jdatepicker.impl.JDatePickerImpl;
 import org.jdatepicker.impl.UtilDateModel;
-
-import com.sun.javafx.iio.common.SmoothMinifier;
-import com.sun.prism.Image;
 
 import kr.or.dgit.bigdata.swmng.dto.Buyer;
 import kr.or.dgit.bigdata.swmng.dto.Sale;

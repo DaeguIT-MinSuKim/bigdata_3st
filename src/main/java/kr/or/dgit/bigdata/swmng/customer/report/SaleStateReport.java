@@ -26,6 +26,10 @@ import javax.swing.border.TitledBorder;
 import kr.or.dgit.bigdata.swmng.dto.Sale;
 import kr.or.dgit.bigdata.swmng.service.SaleService;
 import kr.or.dgit.bigdata.swmng.util.ModelForTable;
+import javax.swing.JTextField;
+import javax.swing.BoxLayout;
+import javax.swing.border.EmptyBorder;
+import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class SaleStateReport extends JPanel implements ActionListener {
@@ -35,6 +39,9 @@ public class SaleStateReport extends JPanel implements ActionListener {
 	private JTable table;
 	private JScrollPane scrollPane;
 	private ModelForTable mft;
+	private JPanel panel_2;
+	private JLabel lblNewLabel;
+	private JTextField textField;
 
 	public SaleStateReport() {
 		try {
@@ -87,6 +94,19 @@ public class SaleStateReport extends JPanel implements ActionListener {
 		scrollPane.setViewportView(table);
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		
+		panel_2 = new JPanel();
+		panel_2.setBorder(new EmptyBorder(0, 20, 2, 20));
+		add(panel_2, BorderLayout.SOUTH);
+		panel_2.setLayout(new BorderLayout(0, 0));
+		
+		lblNewLabel = new JLabel("\uD569 \uACC4 : ");
+		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
+		panel_2.add(lblNewLabel, BorderLayout.CENTER);
+		
+		textField = new JTextField();
+		panel_2.add(textField, BorderLayout.EAST);
+		textField.setColumns(10);
 	}
 
 	public void actionPerformed(ActionEvent e) {
@@ -103,7 +123,7 @@ public class SaleStateReport extends JPanel implements ActionListener {
 
 	private void showSoftwareSaleList() {
 		List<Sale> reportlist = SaleService.getInstance().selectAllSortDate();
-		String[] COL_NAMES = { "년월", "분류", "품목명", "주문번호", "주문수량", "판매금액" };
+		String[] COL_NAMES = { "주문일자", "분류", "품목명", "주문번호", "주문수량", "판매금액" };
 		String[][] data = new String[reportlist.size() + 2][COL_NAMES.length];
 		int idx = 0;
 		int total = 0;
@@ -145,13 +165,18 @@ public class SaleStateReport extends JPanel implements ActionListener {
 	}
 
 	private void showTradeDetailList() {
+		
 		List<Sale> reportlist = SaleService.getInstance().selectAllSortSupplier();
+		
 		String[] COL_NAMES = { "공급회사명", "주문일자", "고객상호", "품명", "수량", "단가", "금액", "세금", "총납품금액" };
 		String[][] data = new String[reportlist.size() + 2][COL_NAMES.length];
+		
 		int idx = 0;
 		int total = 0;
+		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String beforeConame = "";
+		
 		for (Sale c : reportlist) {
 			int orderCnt = c.getOrderCount();
 			int supPrice = c.getSupPrice();

@@ -87,8 +87,8 @@ CREATE TABLE SALE (
 	orderCount INTEGER     NULL COMMENT '주문수량', -- 주문수량
 	payment    BOOLEAN     NULL COMMENT '입금여부', -- 입금여부
 	date       DATE        NULL COMMENT '주문일자', -- 주문일자
-	supPrice   INTEGER     NULL COMMENT '공급가', -- 공급가
-	sellPrice  INTEGER     NULL COMMENT '판매가', -- 판매가
+	supPrice   BIGINT     NULL COMMENT '공급가', -- 공급가
+	sellPrice  BIGINT     NULL COMMENT '판매가', -- 판매가
 	coName     varchar(20) NULL COMMENT '공급회사' -- 공급회사
 )
 COMMENT '판매현황';
