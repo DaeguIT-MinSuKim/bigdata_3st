@@ -334,8 +334,7 @@ public class SoftwareOrder extends JPanel {
 		Date date = time.getTime();
 		Software sw = SoftwareService.getInstance().selectSWBytitle(title);
 
-		Sale s = new Sale(no, shopName, title, orderCount, payment, date/*, sw.getSupPrice(), sw.getSellPrice(),
-				sw.getCoName2(), sw.getCategory()*/);
+		Sale s = new Sale(no, shopName, title, orderCount, payment, date);
 		SaleService.getInstance().insertItem(s);
 	}
 	private void refresh(){
