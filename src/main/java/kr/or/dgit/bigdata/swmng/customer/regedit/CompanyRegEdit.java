@@ -1,29 +1,30 @@
-package kr.or.dgit.bigdata.swmng.customer;
+package kr.or.dgit.bigdata.swmng.customer.regedit;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.util.List;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
+import kr.or.dgit.bigdata.swmng.customer.list.CompanyList;
 import kr.or.dgit.bigdata.swmng.dto.Company;
-import kr.or.dgit.bigdata.swmng.list.CompanyList;
-import kr.or.dgit.bigdata.swmng.main.SwMngMain;
 import kr.or.dgit.bigdata.swmng.service.CompanyService;
 
 public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInterface {
-	private JTextField tfAddress;
+	private static JTextField tfZipcode;
 	private JTextField tfNo;
 	private JTextField tfCoName;
 	private JTextField tfTel;
@@ -31,27 +32,29 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 	private JButton btnCancel;
 	private String selectedCoName;
 	private JLabel lblTitle;
+	private static JTextField tfAddress;
+	private JButton btnSearch;
 
 	public CompanyRegEdit(String e, int flag) {
 
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel AddPanel = new JPanel();
 		add(AddPanel, BorderLayout.CENTER);
 		AddPanel.setBorder(new EmptyBorder(10, 5, 10, 5));
 		GridBagLayout gbl_AddPanel = new GridBagLayout();
-		gbl_AddPanel.columnWidths = new int[] { 0, 17, 0, 0, 0, 40, 0, 0, 0, 0, 0, 2 };
-		gbl_AddPanel.rowHeights = new int[] { 38, 0, 0, 0 };
-		gbl_AddPanel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
-		gbl_AddPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gbl_AddPanel.columnWidths = new int[] { 0, 0, 45, 48, 79, 102, 37 };
+		gbl_AddPanel.rowHeights = new int[] { 38, 48, 0, 0, 0, 0, 0, 0 };
+		gbl_AddPanel.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0 };
+		gbl_AddPanel.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		AddPanel.setLayout(gbl_AddPanel);
 
 		lblTitle = new JLabel("공급회사 등록");
 		lblTitle.setFont(new Font("돋움", Font.BOLD, 15));
 		GridBagConstraints gbc_lblTitle = new GridBagConstraints();
-		gbc_lblTitle.gridwidth = 12;
+		gbc_lblTitle.gridwidth = 6;
 		gbc_lblTitle.insets = new Insets(0, 0, 5, 0);
-		gbc_lblTitle.gridx = 0;
+		gbc_lblTitle.gridx = 1;
 		gbc_lblTitle.gridy = 0;
 		AddPanel.add(lblTitle, gbc_lblTitle);
 
@@ -59,8 +62,8 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 		GridBagConstraints gbc_lbNo = new GridBagConstraints();
 		gbc_lbNo.anchor = GridBagConstraints.EAST;
 		gbc_lbNo.insets = new Insets(0, 0, 5, 5);
-		gbc_lbNo.gridx = 0;
-		gbc_lbNo.gridy = 1;
+		gbc_lbNo.gridx = 1;
+		gbc_lbNo.gridy = 2;
 		AddPanel.add(lbNo, gbc_lbNo);
 
 		tfNo = new JTextField();
@@ -69,62 +72,88 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 		GridBagConstraints gbc_tfNo = new GridBagConstraints();
 		gbc_tfNo.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfNo.insets = new Insets(0, 0, 5, 5);
-		gbc_tfNo.gridx = 1;
-		gbc_tfNo.gridy = 1;
+		gbc_tfNo.gridx = 2;
+		gbc_tfNo.gridy = 2;
 		AddPanel.add(tfNo, gbc_tfNo);
 
 		JLabel lblCoName = new JLabel("회 사 명 :");
 		GridBagConstraints gbc_lblCoName = new GridBagConstraints();
 		gbc_lblCoName.anchor = GridBagConstraints.EAST;
 		gbc_lblCoName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCoName.gridx = 7;
-		gbc_lblCoName.gridy = 1;
+		gbc_lblCoName.gridx = 1;
+		gbc_lblCoName.gridy = 3;
 		AddPanel.add(lblCoName, gbc_lblCoName);
 
 		tfCoName = new JTextField();
 		tfCoName.setColumns(10);
 		GridBagConstraints gbc_tfCoName = new GridBagConstraints();
 		gbc_tfCoName.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfCoName.gridwidth = 4;
-		gbc_tfCoName.insets = new Insets(0, 0, 5, 0);
-		gbc_tfCoName.gridx = 8;
-		gbc_tfCoName.gridy = 1;
+		gbc_tfCoName.gridwidth = 3;
+		gbc_tfCoName.insets = new Insets(0, 0, 5, 5);
+		gbc_tfCoName.gridx = 2;
+		gbc_tfCoName.gridy = 3;
 		AddPanel.add(tfCoName, gbc_tfCoName);
-
-		JLabel lblAddress = new JLabel("주 소 :");
-		GridBagConstraints gbc_lblAddress = new GridBagConstraints();
-		gbc_lblAddress.anchor = GridBagConstraints.EAST;
-		gbc_lblAddress.insets = new Insets(0, 0, 0, 5);
-		gbc_lblAddress.gridx = 0;
-		gbc_lblAddress.gridy = 2;
-		AddPanel.add(lblAddress, gbc_lblAddress);
-
-		tfAddress = new JTextField();
-		GridBagConstraints gbc_tfAddress = new GridBagConstraints();
-		gbc_tfAddress.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfAddress.gridwidth = 5;
-		gbc_tfAddress.insets = new Insets(0, 0, 0, 5);
-		gbc_tfAddress.gridx = 1;
-		gbc_tfAddress.gridy = 2;
-		AddPanel.add(tfAddress, gbc_tfAddress);
-		tfAddress.setColumns(10);
 
 		JLabel lblTel = new JLabel("전화번호 :");
 		GridBagConstraints gbc_lblTel = new GridBagConstraints();
 		gbc_lblTel.anchor = GridBagConstraints.EAST;
-		gbc_lblTel.insets = new Insets(0, 0, 0, 5);
-		gbc_lblTel.gridx = 7;
-		gbc_lblTel.gridy = 2;
+		gbc_lblTel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTel.gridx = 1;
+		gbc_lblTel.gridy = 4;
 		AddPanel.add(lblTel, gbc_lblTel);
 
 		tfTel = new JTextField();
 		tfTel.setColumns(10);
 		GridBagConstraints gbc_tfTel = new GridBagConstraints();
 		gbc_tfTel.fill = GridBagConstraints.HORIZONTAL;
-		gbc_tfTel.gridwidth = 4;
-		gbc_tfTel.gridx = 8;
-		gbc_tfTel.gridy = 2;
+		gbc_tfTel.gridwidth = 3;
+		gbc_tfTel.insets = new Insets(0, 0, 5, 5);
+		gbc_tfTel.gridx = 2;
+		gbc_tfTel.gridy = 4;
 		AddPanel.add(tfTel, gbc_tfTel);
+
+		JLabel lblAddress = new JLabel("주 소 :");
+		GridBagConstraints gbc_lblAddress = new GridBagConstraints();
+		gbc_lblAddress.anchor = GridBagConstraints.EAST;
+		gbc_lblAddress.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAddress.gridx = 1;
+		gbc_lblAddress.gridy = 5;
+		AddPanel.add(lblAddress, gbc_lblAddress);
+
+		tfZipcode = new JTextField();
+		tfZipcode.setEditable(false);
+		GridBagConstraints gbc_tfZipcode = new GridBagConstraints();
+		gbc_tfZipcode.gridwidth = 2;
+		gbc_tfZipcode.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfZipcode.insets = new Insets(0, 0, 5, 5);
+		gbc_tfZipcode.gridx = 2;
+		gbc_tfZipcode.gridy = 5;
+		AddPanel.add(tfZipcode, gbc_tfZipcode);
+		tfZipcode.setColumns(10);
+
+		btnSearch = new JButton("검색");
+		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
+		gbc_btnSearch.anchor = GridBagConstraints.WEST;
+		gbc_btnSearch.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSearch.gridx = 4;
+		gbc_btnSearch.gridy = 5;
+		AddPanel.add(btnSearch, gbc_btnSearch);
+		btnSearch.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ZipcodeSearch("Company").setVisible(true);
+			}
+		});
+
+		tfAddress = new JTextField();
+		tfAddress.setColumns(10);
+		GridBagConstraints gbc_tfAddress = new GridBagConstraints();
+		gbc_tfAddress.insets = new Insets(0, 0, 0, 5);
+		gbc_tfAddress.fill = GridBagConstraints.HORIZONTAL;
+		gbc_tfAddress.gridwidth = 4;
+		gbc_tfAddress.gridx = 2;
+		gbc_tfAddress.gridy = 6;
+		AddPanel.add(tfAddress, gbc_tfAddress);
 
 		JPanel BtnPanel = new JPanel();
 		add(BtnPanel, BorderLayout.SOUTH);
@@ -158,12 +187,21 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 			} catch (NullPointerException e2) {
 				tfNo.setText("1");
 			}
-
 		} else if (e.equals("수정")) {
 			lblTitle.setText("공급회사 정보 수정");
 			updateAction(flag);
-		}
+		} 
+	}
 
+
+	public static JTextField getTfZipcode() {
+		return tfZipcode;
+	}
+
+
+
+	public static JTextField getTfAddress() {
+		return tfAddress;
 	}
 
 	@Override
@@ -173,7 +211,7 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 		Company list = CompanyService.getInstance().selectByNo(no);
 		tfNo.setText(list.getNo() + "");
 		tfCoName.setText(list.getCoName());
-		tfAddress.setText(list.getAddress());
+		tfZipcode.setText(list.getAddress());
 		tfTel.setText(list.getTel());
 		selectedCoName = list.getCoName();
 		revalidate();
@@ -185,30 +223,36 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 		switch (e.getActionCommand()) {
 		case "등록":
 			if (inputValidation() && duplicateValidation(e.getActionCommand())) {
-				CompanyService.getInstance().insertItem(new Company(Integer.parseInt(tfNo.getText()),
-						tfCoName.getText().trim(), tfAddress.getText().trim(), tfTel.getText().trim()));
+				CompanyService.getInstance()
+						.insertItem(new Company(Integer.parseInt(tfNo.getText()), tfCoName.getText().trim(),
+								tfZipcode.getText().trim() + tfAddress.getText().trim(), tfTel.getText().trim()));
 				JOptionPane.showMessageDialog(null, "등록이 완료되었습니다.");
 				refresh(new CompanyList());
+				getTopLevelAncestor().setSize(700, 400);
 			}
 
 			break;
 		case "수정":
 			if (inputValidation() && duplicateValidation(e.getActionCommand())) {
 				btnAdd.setText("등록");
-				CompanyService.getInstance().updateItem(new Company(Integer.parseInt(tfNo.getText()),
-						tfCoName.getText().trim(), tfAddress.getText().trim(), tfTel.getText().trim()));
+				CompanyService.getInstance()
+						.updateItem(new Company(Integer.parseInt(tfNo.getText()), tfCoName.getText().trim(),
+								tfZipcode.getText().trim() + tfAddress.getText().trim(), tfTel.getText().trim()));
 				JOptionPane.showMessageDialog(null, "수정이 완료되었습니다.");
 				refresh(new CompanyList());
+				getTopLevelAncestor().setSize(700, 400);
 			}
 
 			break;
 
 		case "취소":
 			refresh(new CompanyList());
+			getTopLevelAncestor().setSize(700, 400);
 			break;
 		}
 
 	}
+
 
 	@Override
 	public void refresh(JPanel p) {
@@ -220,7 +264,7 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 
 	@Override
 	public boolean inputValidation() {
-		if (tfNo.getText().equals("") || tfCoName.getText().trim().equals("") || tfAddress.getText().trim().equals("")
+		if (tfNo.getText().equals("") || tfCoName.getText().trim().equals("") || tfZipcode.getText().trim().equals("")
 				|| tfTel.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "빈칸없이 입력해 주세요");
 			return false;

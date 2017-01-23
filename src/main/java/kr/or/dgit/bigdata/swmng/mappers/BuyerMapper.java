@@ -3,6 +3,7 @@ package kr.or.dgit.bigdata.swmng.mappers;
 import java.util.List;
 
 public interface BuyerMapper<T> {
+
 	void insertItem(T item);
 
 	void deleteItem(int idx);

@@ -132,4 +132,16 @@ public class SoftwareService implements SoftwareMapper<Software> {
 		}
 	}
 
+	@Override
+	public List<Software> selectSoftwareBytitle() {
+		SqlSession sqlSession = MybatisSessionFactory.openSession();
+		SoftwareMapper softwareDao = sqlSession.getMapper(SoftwareMapper.class);
+		try {
+			List<Software> returnList = softwareDao.selectSoftwareBytitle();
+			return returnList;
+		} finally {
+			sqlSession.close();
+		}
+	}
+
 }

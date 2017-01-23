@@ -1,4 +1,4 @@
-package kr.or.dgit.bigdata.swmng.list;
+package kr.or.dgit.bigdata.swmng.customer.list;
 
 import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
@@ -19,13 +19,15 @@ import javax.swing.SwingConstants;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.SoftBevelBorder;
 
-import kr.or.dgit.bigdata.swmng.customer.CompanyRegEdit;
+import kr.or.dgit.bigdata.swmng.customer.member.LoginForm;
+import kr.or.dgit.bigdata.swmng.customer.regedit.CompanyRegEdit;
 import kr.or.dgit.bigdata.swmng.dto.Company;
 import kr.or.dgit.bigdata.swmng.service.CompanyService;
 import kr.or.dgit.bigdata.swmng.util.ModelForTable;
 import java.awt.Font;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 
-@SuppressWarnings("serial")
 public class CompanyList extends JPanel implements ActionListener, ListInterface {
 	private JButton btnAdd;
 	private JButton btnUpdate;
@@ -35,6 +37,7 @@ public class CompanyList extends JPanel implements ActionListener, ListInterface
 	private JPanel btnPanel;
 
 	public CompanyList() {
+
 		setLayout(new BorderLayout(0, 0));
 
 		JLabel listTitle = new JLabel("공급회사 목록");
@@ -50,16 +53,16 @@ public class CompanyList extends JPanel implements ActionListener, ListInterface
 		btnPanel = new JPanel();
 		add(btnPanel, BorderLayout.SOUTH);
 		GridBagLayout gbl_BtnPanel = new GridBagLayout();
-		gbl_BtnPanel.columnWidths = new int[] { 0, 0, 0, 0 };
+		gbl_BtnPanel.columnWidths = new int[] { 0, 0, 0, 0, 0 };
 		gbl_BtnPanel.rowHeights = new int[] { 0, 0 };
-		gbl_BtnPanel.columnWeights = new double[] { 1.0, 1.0, 1.0, Double.MIN_VALUE };
+		gbl_BtnPanel.columnWeights = new double[] { 1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		gbl_BtnPanel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		btnPanel.setLayout(gbl_BtnPanel);
 
 		btnAdd = new JButton("등록");
 		btnAdd.addActionListener(this);
 		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
-		gbc_btnAdd.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnAdd.anchor = GridBagConstraints.EAST;
 		gbc_btnAdd.insets = new Insets(0, 0, 0, 5);
 		gbc_btnAdd.gridx = 0;
 		gbc_btnAdd.gridy = 0;
@@ -68,7 +71,6 @@ public class CompanyList extends JPanel implements ActionListener, ListInterface
 		btnUpdate = new JButton("수정");
 		btnUpdate.addActionListener(this);
 		GridBagConstraints gbc_btnUpdate = new GridBagConstraints();
-		gbc_btnUpdate.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnUpdate.insets = new Insets(0, 0, 0, 5);
 		gbc_btnUpdate.gridx = 1;
 		gbc_btnUpdate.gridy = 0;
@@ -77,10 +79,17 @@ public class CompanyList extends JPanel implements ActionListener, ListInterface
 		btnDel = new JButton("삭제");
 		btnDel.addActionListener(this);
 		GridBagConstraints gbc_btnDel = new GridBagConstraints();
-		gbc_btnDel.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnDel.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDel.anchor = GridBagConstraints.WEST;
 		gbc_btnDel.gridx = 2;
 		gbc_btnDel.gridy = 0;
 		btnPanel.add(btnDel, gbc_btnDel);
+		
+		if (new LoginForm().getMemberId().equals("admin")) {
+			btnPanel.setVisible(true);
+		} else {
+			btnPanel.setVisible(false);
+		}
 
 		createList();
 
@@ -91,8 +100,8 @@ public class CompanyList extends JPanel implements ActionListener, ListInterface
 
 		switch (e.getActionCommand()) {
 		case "등록":
-			
 			refresh(new CompanyRegEdit(e.getActionCommand(), 0));
+			getTopLevelAncestor().setSize(560, 400);
 			break;
 		case "수정":
 			if (companyList.getSelectedRow() == -1) {
@@ -100,6 +109,7 @@ public class CompanyList extends JPanel implements ActionListener, ListInterface
 			} else {
 				int flag = Integer.parseInt(companyList.getValueAt(companyList.getSelectedRow(), 0) + "");
 				refresh(new CompanyRegEdit(e.getActionCommand(), flag));
+				getTopLevelAncestor().setSize(560, 400);
 			}
 			break;
 		case "삭제":
@@ -151,12 +161,10 @@ public class CompanyList extends JPanel implements ActionListener, ListInterface
 		mft.tableCellAlignment(companyList, SwingConstants.CENTER, 0, 3);
 		companyList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		mft.resizeColumnWidth(companyList);
-
 		mft.tableHeaderAlignment(companyList);
-
 		listPanel.add(new JScrollPane(companyList));
 		companyList.setFont(new Font("돋움", Font.PLAIN, 12));
-
+		companyList.getTableHeader().setReorderingAllowed(false);
 	}
 
 }

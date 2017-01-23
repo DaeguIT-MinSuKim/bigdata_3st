@@ -1,4 +1,4 @@
-package kr.or.dgit.bigdata.swmng.list;
+package kr.or.dgit.bigdata.swmng.customer.list;
 
 import javax.swing.JPanel;
 

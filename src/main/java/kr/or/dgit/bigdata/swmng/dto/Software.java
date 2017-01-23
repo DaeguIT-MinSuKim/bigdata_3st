@@ -9,7 +9,6 @@ public class Software {
 	private int sellPrice;
 	private Company coName;
 	private String coName2;
-	
 
 	public Software(int no, String category, String title, int supPrice, int sellPrice, String coName2) {
 		this.no = no;
@@ -20,11 +19,9 @@ public class Software {
 		this.coName2 = coName2;
 	}
 
-
 	public byte[] getPicPath() {
 		return picPath;
 	}
-
 
 	public void setPicPath(byte[] picPath) {
 		this.picPath = picPath;

@@ -12,10 +12,11 @@
 		<result property="picPath" column="picPath" />
 		<result property="supPrice" column="supPrice" />
 		<result property="sellPrice" column="sellPrice" />
+		<result property="coName2" column="coName2" />
 		<association property="coName"
 			resultMap="kr.or.dgit.bigdata.swmng.mappers.CompanyMapper.companyResult" />
 	</resultMap>
-	
+
 	<select id="selectAll" resultType="Software" resultMap="softwareResult">
 		SELECT
 		s.*, c.* FROM software s, company c
@@ -83,4 +84,13 @@
 			</otherwise>
 		</choose>
 	</update>
+
+	<!-- 곽문한추가 -->
+	<select id="selectSoftwareBytitle" resultType="Software">
+		select distinct
+		title from software ORDER BY title
+
+	</select>
+
+
 </mapper>

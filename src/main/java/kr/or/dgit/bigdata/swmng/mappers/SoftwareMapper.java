@@ -2,6 +2,8 @@ package kr.or.dgit.bigdata.swmng.mappers;
 
 import java.util.List;
 
+import kr.or.dgit.bigdata.swmng.dto.Software;
+
 public interface SoftwareMapper<T> {
 	void insertItem(T item);
 
@@ -20,4 +22,12 @@ public interface SoftwareMapper<T> {
 	List<T> selectTitle();
 	
 	List<T> selectTitleJoinSale(String item);
+	
+
+	//곽문한 추가//
+	List<T> selectSoftwareBytitle(); // ok
+	
+	
+	
+
 }
