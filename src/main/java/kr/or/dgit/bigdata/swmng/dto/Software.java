@@ -11,52 +11,6 @@ public class Software {
 	private int sellPrice;
 	private Company coName;
 	private String coName2;
-	
-
-	//곽문한 추가↓//	
-	private int supplyMony;
-	private int sellMony;
-	private int sellProfits;
-	private Sale orderCount;
-
-	public int getSupplyMony() {
-		return supplyMony;
-	}
-
-
-	public void setSupplyMony(int supplyMony) {
-		this.supplyMony = supplyMony;
-	}
-
-
-	public int getSellMony() {
-		return sellMony;
-	}
-
-
-	public void setSellMony(int sellMony) {
-		this.sellMony = sellMony;
-	}
-
-
-	public int getSellProfits() {
-		return sellProfits;
-	}
-
-
-	public void setSellProfits(int sellProfits) {
-		this.sellProfits = sellProfits;
-	}
-
-
-	public Sale getOrderCount() {
-		return orderCount;
-	}
-
-
-	public void setOrderCount(Sale orderCount) {
-		this.orderCount = orderCount;
-	}
 
 
 	public Software(int no, String category, String title, int supPrice, int sellPrice, String coName2) {
@@ -68,11 +22,9 @@ public class Software {
 		this.coName2 = coName2;
 	}
 
-
 	public byte[] getPicPath() {
 		return picPath;
 	}
-
 
 	public void setPicPath(byte[] picPath) {
 		this.picPath = picPath;

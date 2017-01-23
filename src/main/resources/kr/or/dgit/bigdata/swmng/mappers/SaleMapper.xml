@@ -53,35 +53,42 @@
 		from
 		sale where shopName = #{shopName} order by title
 	</select>
-	
+
 	<select id="selectAllForSWSalesTable" resultType="Sale">
 		select
-		title,category,coName,(orderCount*supPrice) supplyMony,
-		(orderCount*sellPrice) sellMony,
-		((orderCount*sellPrice)-(orderCount*supPrice)) sellProfits
+		title,category,coName,(orderCount*supPrice) supAmount,
+		(orderCount*sellPrice) saleAmount,
+		((orderCount*sellPrice)-(orderCount*supPrice)) saleProfits
 		from sale
 
 	</select>
-	
-	<select id="selectAllForSWSalesTableByTitle" parameterType="String" resultType="Sale">
-		select
-		title,category,coName,(orderCount*supPrice) supplyMony,
-		(orderCount*sellPrice) sellMony,
-		((orderCount*sellPrice)-(orderCount*supPrice)) sellProfits
-		from sale
-		where title = #{title} ORDER BY category
+
+	<select id="selectAllForSWSalesTableByTitle" parameterType="String"
+		resultType="Sale">
+
+			select 
+			title,category,coName,
+			sum(orderCount*supPrice) supAmount, 
+			sum(orderCount*sellPrice) saleAmount, 
+			sum((orderCount*sellPrice)-(orderCount*supPrice)) saleProfits 
+			from sale 
+			where title = #{title}  
+			group by coName 
+			ORDER BY category 	
 	</select>
-	
-	
+
+
 	<!-- 경아꺼 -->
-		<insert id="insertItem" parameterType="Sale">
-		insert into sale(no,shopName,title,orderCount,payment,date,supPrice,sellPrice,coName,category) 
+	<insert id="insertItem" parameterType="Sale">
+		insert into
+		sale(no,shopName,title,orderCount,payment,date,supPrice,sellPrice,coName,category)
 		values(#{no},#{shopName},#{title},#{orderCount},#{payment},#{date},#{supPrice},#{sellPrice},#{coName},#{category})
 	</insert>
-	
+
 	<select id="selectMaxNo" resultType="Sale">
-		SELECT MAX(no)+1 no FROM sale
+		SELECT MAX(no)+1 no FROM
+		sale
 	</select>
-	
+
 
 </mapper> 

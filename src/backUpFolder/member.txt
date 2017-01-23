@@ -1,2 +1,1 @@
 `admin`,`admin`,`admin@gmail.com`
-`kyung`,`1234`,`@nate.com`

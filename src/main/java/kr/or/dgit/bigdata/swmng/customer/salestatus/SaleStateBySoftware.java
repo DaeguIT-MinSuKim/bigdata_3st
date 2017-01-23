@@ -118,7 +118,8 @@ public class SaleStateBySoftware extends JPanel {
 			}
 		});
 
-		checkBox.addActionListener(new ActionListener() {
+
+		checkBox.addActionListener(new ActionListener() { // 체크박스 클릭 시
 			public void actionPerformed(ActionEvent e) {
 				createList();
 				repaint();
@@ -130,8 +131,7 @@ public class SaleStateBySoftware extends JPanel {
 		createList();
 	}
 
-	private void setComList() {
-		// 콤보박스 아이템
+	private void setComList() { // 콤보박스 아이템  품목명으로 나열
 		List<Software> title = SoftwareService.getInstance().selectSoftwareBytitle();
 		for (Software s : title) {
 			comboBox.addItem(s.getTitle());
@@ -139,7 +139,7 @@ public class SaleStateBySoftware extends JPanel {
 
 	}
 
-	private void createList() { // 품목명별 리스트
+	private void createList() { // 품목명별 리스트 
 		List<Sale> list = getList();
 
 		String[] COL_NAMES = { "품목명", "분류", "공급회사명", "공급금액", "판매금액", "판매이윤" };
@@ -153,9 +153,9 @@ public class SaleStateBySoftware extends JPanel {
 		for (Sale s : list) {
 
 			data = getRowData(data, s, idx);
-			sum1 += s.getSupplyMony();
-			sum2 += s.getSellMony();
-			sum3 += s.getSellProfits();
+			sum1 += s.getSupAmount();
+			sum2 += s.getSaleAmount();
+			sum3 += s.getSaleProfits();
 			idx++;
 		}
 		rowCnt = idx;
@@ -163,7 +163,7 @@ public class SaleStateBySoftware extends JPanel {
 		//합계가 0인지 체크 
 		//if 0 이면 '-'표시
 		int[] temp = { sum1, sum2, sum3 };
-		String[] rArr = checkZero(temp);
+		String[] rArr = checkZero(temp); 
 
 		txtLeft.setText(rArr[0]);
 		txtCenter.setText(rArr[1]);
@@ -175,7 +175,7 @@ public class SaleStateBySoftware extends JPanel {
 		handleTableDesign();
 	}
 
-	private String[] checkZero(int[] temp) {
+	private String[] checkZero(int[] temp) {  // 공금금액 합계,판매금액 합계,판매이윤 합계 가 '0'이면 -> '-'으로 출력 ,데이터 있으면 원본 출력
 		String[] rArr = new String[3];
 		for (int i = 0; i < temp.length; i++) {
 			if (temp[i] == 0) {
@@ -189,14 +189,15 @@ public class SaleStateBySoftware extends JPanel {
 
 	private List<Sale> getList() {
 		List<Sale> list = null;
-		if (!checkBox.isSelected()) {
-			comboBox.setEnabled(CHECK);
+		if (!checkBox.isSelected()) { // 체크박스가 선택되지 않았을때 
+			comboBox.setEnabled(CHECK); // 콤보박스 사용가능
+			//↓ 콤보박스 선택되었는 품목별 출력
 			list = SaleService.getInstance().selectAllForSWSalesTableByTitle(comboBox.getSelectedItem() + "");
 		} else {
-			comboBox.setEnabled(UNCHECK);
-			checkBox.setSelected(true);
+			comboBox.setEnabled(UNCHECK); // 콤보박스 사용불가
+			checkBox.setSelected(true);// 체크박스 체크
 
-			list = SaleService.getInstance().selectAllForSWSalesTable();
+			list = SaleService.getInstance().selectAllForSWSalesTable(); // SW별 판매현황 모두 출력
 		}
 		return list;
 	}
@@ -207,15 +208,17 @@ public class SaleStateBySoftware extends JPanel {
 		mft.tableCellAlignment(table, SwingConstants.RIGHT, 3, 4, 5);
 		mft.tableHeaderAlignment(table);
 		table.setFont(table.getFont().deriveFont(11.0f));
+		table.getTableHeader().setReorderingAllowed(false);
 	}
 
-	private String[][] getRowData(String[][] data, Sale s, int idx) {
+	private String[][] getRowData(String[][] data, Sale s, int idx) { // 각 행 해당하는 데이터 가져오기
 		data[idx][0] = s.getTitle();
 		data[idx][1] = s.getCategory();
 		data[idx][2] = s.getCoName();
-		data[idx][3] = String.format("%,d", s.getSupplyMony()) + "원";
-		data[idx][4] = String.format("%,d", s.getSellMony()) + "원";
-		data[idx][5] = String.format("%,d", s.getSellProfits()) + "원";
+		data[idx][3] = String.format("%,d", s.getSupAmount()) + "원";
+		data[idx][4] = String.format("%,d", s.getSaleAmount()) + "원";
+		data[idx][5] = String.format("%,d", s.getSaleProfits()) + "원";
+
 		return data;
 	}
 

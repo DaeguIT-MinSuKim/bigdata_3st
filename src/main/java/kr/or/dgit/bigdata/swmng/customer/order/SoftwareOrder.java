@@ -306,12 +306,24 @@ public class SoftwareOrder extends JPanel {
 	//등록확인
 	private void addCheck(){
 			if (tfcount.getText().trim().equals("")) {
-			JOptionPane.showMessageDialog(null, "주문수량을 입력해주세요");
-			} else {
-			JOptionPane.showMessageDialog(null, "등록완료");
-			add();
-			refresh();
-		}
+				JOptionPane.showMessageDialog(null, "주문수량을 입력해주세요");
+			}else if(tfcount.getText().trim().matches("[0]{1,9}")){
+				JOptionPane.showMessageDialog(null, "다시 입력하세요.");
+				refresh();
+				return;
+			}else if(!tfcount.getText().trim().matches("^[0-9]{1,9}$")){
+				if (tfcount.getText().trim().matches("[0-9]{10,30}")) {
+					JOptionPane.showMessageDialog(null, "주문가능수량을 초과하였습니다");
+					refresh();
+					return;
+				}
+				JOptionPane.showMessageDialog(null, "주문수량은 정수만입력가능합니다");
+				refresh();
+			}else{
+				JOptionPane.showMessageDialog(null, "등록완료");
+				add();
+				refresh();
+			}
 	}
 	void add() {
 		String[] strDate = datePicker1.getJFormattedTextField().getText().split("/");
@@ -331,11 +343,11 @@ public class SoftwareOrder extends JPanel {
 		} else {
 			payment = false;
 		}
+	
 		Date date = time.getTime();
-		Software sw = SoftwareService.getInstance().selectSWBytitle(title);
-
 		Sale s = new Sale(no, shopName, title, orderCount, payment, date);
 		SaleService.getInstance().insertItem(s);
+
 	}
 	private void refresh(){
 		cbcoName.setSelectedIndex(0);

@@ -143,11 +143,13 @@ public class SaleStateByDate extends JPanel implements ActionListener {
 	}
 
 	private void handleTableDesign() {
+	
 		table.getColumnModel().getColumn(4).setCellRenderer(table.getDefaultRenderer(Boolean.class));
 		mft.resizeColumnWidth(table);
 		mft.tableCellAlignment(table, SwingConstants.CENTER, 0, 3, 5);
 		mft.tableHeaderAlignment(table);
 		table.setFont(table.getFont().deriveFont(11.0f));
+		table.getTableHeader().setReorderingAllowed(false);
 	}
 
 	private Object[][] getRowData(Object[][] data, Sale c, int idx) {
@@ -155,12 +157,11 @@ public class SaleStateByDate extends JPanel implements ActionListener {
 		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		GregorianCalendar date=new GregorianCalendar();
 		date.setTime(c.getDate());
-		
 		data[idx][0] = c.getNo() + "";
 		data[idx][1] = c.getShopName();
 		data[idx][2] = c.getTitle();
 		data[idx][3] = String.format("%,d", c.getOrderCount());
-		data[idx][4] = new Boolean(c.isPayment());
+		data[idx][4] = c.isPayment();
 		data[idx][5] = dateFormat.format(date.getTime());
 
 		return data;
@@ -176,8 +177,8 @@ public class SaleStateByDate extends JPanel implements ActionListener {
 	protected void btnSearchActionPerformed(ActionEvent e) {
 		createList(UNCHECK);
 	}
-
-	private Date makeDate(JDatePickerImpl datePicker) {
+	
+	private Date makeDate(JDatePickerImpl datePicker) {  
 		String[] strDate = datePicker.getJFormattedTextField().getText().split("/");
 		int[] numDateArr = new int[3];
 		for (int i = 0; i < strDate.length; i++) {

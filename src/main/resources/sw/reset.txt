@@ -136,6 +136,16 @@ CREATE
   where title = new.title;
 
 
+-- 소프트웨어 구매시 sale테이블에 sellPrice,supPrice,coName,category 업데이트
+CREATE 
+TRIGGER tri_insert_sale before 
+insert ON sale 
+FOR EACH row SET 
+new.sellPrice= (select sellPrice from software where new.title=title),
+new.supPrice=(select supPrice from software where new.title=title),
+new.coName=(select coName from software where new.title=title),
+new.category=(select category from software where new.title=title); 
+
 
 -- 판매 자료입력 순서중요함 sale이 항상먼저
 insert into sale(no,shopname,title,ordercount,payment,date) values

@@ -123,6 +123,7 @@ public class SaleStateReport extends JPanel implements ActionListener {
 			data[idx][2] = c.getTitle();
 			data[idx][3] = c.getNo() + "";
 			data[idx][4] = String.format("%,d", c.getOrderCount());
+			System.out.println(c.getOrderCount() * c.getSellPrice());
 			data[idx][5] = String.format("%,d", (c.getOrderCount() * c.getSellPrice()));
 			total += c.getOrderCount() * c.getSellPrice();
 			idx++;
@@ -139,6 +140,8 @@ public class SaleStateReport extends JPanel implements ActionListener {
 		mft.resizeColumnWidth(table);
 		mft.tableHeaderAlignment(table);
 		table.setFont(table.getFont().deriveFont(11.0f));
+		table.getTableHeader().setReorderingAllowed(false);
+		
 	}
 
 	private void showTradeDetailList() {
@@ -187,5 +190,7 @@ public class SaleStateReport extends JPanel implements ActionListener {
 		mft.resizeColumnWidth(table);
 		mft.tableHeaderAlignment(table);
 		table.setFont(table.getFont().deriveFont(11.0f));
+		table.getTableHeader().setReorderingAllowed(false);
+
 	}
 }

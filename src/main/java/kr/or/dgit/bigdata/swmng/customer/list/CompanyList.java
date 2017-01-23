@@ -164,6 +164,7 @@ public class CompanyList extends JPanel implements ActionListener, ListInterface
 		mft.tableHeaderAlignment(companyList);
 		listPanel.add(new JScrollPane(companyList));
 		companyList.setFont(new Font("돋움", Font.PLAIN, 12));
+		companyList.getTableHeader().setReorderingAllowed(false);
 
 	}
 

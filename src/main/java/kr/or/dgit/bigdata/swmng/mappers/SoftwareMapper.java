@@ -23,14 +23,9 @@ public interface SoftwareMapper<T> {
 	
 	List<T> selectTitleJoinSale(String item);
 	
-
+	Software selectSWBytitle(String title);
+	
 	//곽문한 추가//
 	List<T> selectSoftwareBytitle(); // ok
-	
-	List<T> softwareViewAll();  // ok
-	
-	List<T> softwareViewBytitle(Software software);
-	Software selectSWBytitle(String title);
-	Software selectAllByTitle(String title);
 	
 }

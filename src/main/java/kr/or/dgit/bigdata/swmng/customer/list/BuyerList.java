@@ -179,6 +179,7 @@ public class BuyerList extends JPanel implements ActionListener, ListInterface {
 		buyerList.setModel(mft);
 		buyerList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		buyerList.setFont(buyerList.getFont().deriveFont(12.0f));
+		buyerList.getTableHeader().setReorderingAllowed(false);
 
 		listPanel.add(new JScrollPane(buyerList));
 	}

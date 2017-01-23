@@ -13,15 +13,11 @@
 		<result property="supPrice" column="supPrice" />
 		<result property="sellPrice" column="sellPrice" />
 		<result property="coName2" column="coName2" />
-
 		<association property="coName"
 			resultMap="kr.or.dgit.bigdata.swmng.mappers.CompanyMapper.companyResult" />
 	</resultMap>
 
 
-	<select id="selectAllByTitle" resultType="Software">
-		select * from software where title=#{title}
-	</select>
 	<select id="selectAll" resultType="Software" resultMap="softwareResult">
 		SELECT
 		s.*, c.* FROM software s, company c
@@ -89,43 +85,19 @@
 			</otherwise>
 		</choose>
 	</update>
-
-	<!-- 문한추가 -->
-
-	<!-- 필요한가? ┐ -->
-	<select id="softwareViewAll" resultMap="softwareResult">
+	
+	<select id="selectSWBytitle" resultMap="softwareResult"> 
 		select
-		so.title,so.category,c.coName,orderCount*so.supPrice supplyMony,
-		sa.orderCount*so.sellPrice sellMony,
-		sa.orderCount*so.sellPrice-sa.orderCount*so.supPrice sellProfits
-		from
-		software so,sale sa,company c where so.coName=c.coName and
-		so.title=sa.title
+		category,supPrice,sellPrice,picPath, coName as coName2 
+		from software
+		where title=#{title} 
 	</select>
 
-
+	<!-- 곽문한추가 -->
 	<select id="selectSoftwareBytitle" resultType="Software">
 		select distinct
 		title from software ORDER BY title
 
-	</select>
-
-	<select id="selectSWBytitle" resultMap="softwareResult">
-		select
-		category,supPrice,sellPrice,picPath, coName as coName2
-		from software
-		where
-		title=#{title}
-	</select>
-
-	<!-- 필요한가? ┐ -->
-	<select id="softwareViewBytitle" resultMap="softwareResult">
-		select
-		so.title,so.category,c.coName,sum(orderCount*so.supPrice) supplyMony,
-		sum(sa.orderCount*so.sellPrice) sellMony,
-		sum(sa.orderCount*so.sellPrice-sa.orderCount*so.supPrice) sellProfits
-		from software so,sale sa,company c where so.coName=c.coName and
-		so.title=sa.title and so.title = #{title} ORDER BY so.category
 	</select>
 
 </mapper>

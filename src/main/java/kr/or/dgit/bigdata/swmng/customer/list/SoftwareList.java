@@ -191,6 +191,7 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 		softwareList.setModel(mft);
 		softwareList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		softwareList.setFont(softwareList.getFont().deriveFont(12.0f));
+		softwareList.getTableHeader().setReorderingAllowed(false);
 
 		listPanel.add(new JScrollPane(softwareList));
 	}

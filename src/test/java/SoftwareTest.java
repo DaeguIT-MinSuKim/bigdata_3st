@@ -29,22 +29,8 @@ public class SoftwareTest {
 		Assert.assertNotNull(list);
 	
 	}
-	
-	/*@Test
-	public void testSelectSoftwareBytitle() {
-		Software software = ss.selectSWBytitle("삼국지");
-		Assert.assertNotNull(software);
-		System.out.println(software);
-	
-	}*/
-	
-	@Test
-	public void testSelectAllByTitle() {
-		Software software = ss.selectAllByTitle("삼국지");
-		Assert.assertNotNull(software);
-		System.out.println(software);
-	
-	}
+
+
 	/*
 	@Test
 	public void test2() {

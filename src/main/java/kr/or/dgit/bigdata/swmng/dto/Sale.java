@@ -11,61 +11,21 @@ public class Sale {
 	private boolean payment;
 	private Date date;
 	private int supPrice;
-	private int sellPrice;
+	private int sellPrice; // 판매가격
 	private String coName;
 	private String category;
 
-	// 곽문한 추가↓//
-	private int sales;
-	private int notmoney;
-	private int supplyMony;
-	private int sellMony;
-	private int sellProfits;
+	// 곽문한 추가
+	// 고객 별 판매현황
+	private int salePrice; //매출금
+	private int saleAccount; // 미수금
+	// SW 별 판매현황 
+	private int supAmount; // 공급금액
+	private int saleAmount;// 판매금액
+	private int saleProfits;//판매이윤
 
-	public int getSupplyMony() {
-		return supplyMony;
-	}
 
-	public void setSupplyMony(int supplyMony) {
-		this.supplyMony = supplyMony;
-	}
-
-	public int getSellMony() {
-		return sellMony;
-	}
-
-	public void setSellMony(int sellMony) {
-		this.sellMony = sellMony;
-	}
-
-	public int getSellProfits() {
-		return sellProfits;
-	}
-
-	public void setSellProfits(int sellProfits) {
-		this.sellProfits = sellProfits;
-	}
-
-	public int getSales() {
-		sales = orderCount*sellPrice;
-		
-		return sales;
-	}
-
-	public void setSales(int sales) {
-		this.sales = sales;
-	}
-
-	public int getNotmoney() {
-		if(!isPayment()){
-			notmoney = orderCount*sellPrice;
-		}
-		return notmoney;
-	}
-
-	public void setNotmoney(int notmoney) {
-		this.notmoney = notmoney;
-	}
+	
 
 	/*@Override
 	public String toString() {
@@ -75,6 +35,7 @@ public class Sale {
 	}*/
 
 	
+
 	public Sale(int no, String shopName, String title, int orderCount, boolean payment, Date date, int supPrice,
 			int sellPrice, String coName) {
 		this.no = no;
@@ -108,8 +69,8 @@ public class Sale {
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		return String.format(
 				"Sale [no=%s, shopName=%s, title=%s, orderCount=%s, payment=%s, date=%s, supPrice=%s, sellPrice=%s, coName=%s, category=%s, sales=%s, notmoney=%s, supplyMony=%s, sellMony=%s, sellProfits=%s]",
-				no, shopName, title, orderCount, payment,  format.format(date), supPrice, sellPrice, coName, category, sales, notmoney,
-				supplyMony, sellMony, sellProfits);
+				no, shopName, title, orderCount, payment,  format.format(date), supPrice, sellPrice, coName, category, salePrice, salePrice,
+				supAmount, saleAmount, saleProfits);
 	}
 
 	
@@ -204,4 +165,54 @@ public class Sale {
 		this.coName = coName;
 	}
 
+	public int getSalePrice() {
+		salePrice = orderCount*sellPrice;
+		return salePrice;
+	}
+
+	public void setSalePrice(int salePrice) {
+		this.salePrice = salePrice;
+	}
+
+	public int getSaleAccount() {
+		if(!isPayment()){
+			saleAccount = orderCount*sellPrice;
+		}
+		
+		return saleAccount;
+	}
+
+	public void setSaleAccount(int saleAccount) {
+		this.saleAccount = saleAccount;
+	}
+
+
+	public int getSupAmount() {
+		return supAmount;
+	}
+
+
+	public void setSupAmount(int supAmount) {
+		this.supAmount = supAmount;
+	}
+
+
+	public int getSaleAmount() {
+		return saleAmount;
+	}
+
+
+	public void setSaleAmount(int saleAmount) {
+		this.saleAmount = saleAmount;
+	}
+
+
+	public int getSaleProfits() {
+		return saleProfits;
+	}
+
+
+	public void setSaleProfits(int saleProfits) {
+		this.saleProfits = saleProfits;
+	}
 }
