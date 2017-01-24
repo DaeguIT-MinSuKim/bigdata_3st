@@ -235,7 +235,9 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 			mainPanel.add(new SoftwareOrder(), BorderLayout.CENTER);
 			setSize(500, 394);
 		} else if (e.getSource() == btnLogout) {
-			LoggedIn.getAdminThread().interrupt();
+			if (LoggedIn.getAdminThread() != null) {
+				LoggedIn.getAdminThread().interrupt();
+			}
 			executeLogOut();
 			sidePanel.setVisible(false);
 			mainPanel.add(new LoginForm(), BorderLayout.CENTER);

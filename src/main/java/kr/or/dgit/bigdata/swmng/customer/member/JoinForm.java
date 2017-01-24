@@ -262,7 +262,7 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 				removeAll();
 				setLayout(new BorderLayout());
 				add(new LoggedIn(), BorderLayout.CENTER);
-				getTopLevelAncestor().setSize(465, 394);
+				getTopLevelAncestor().setSize(500, 394);
 				revalidate();
 				repaint();
 				JOptionPane.showMessageDialog(null, "가입이 완료되었습니다.");
