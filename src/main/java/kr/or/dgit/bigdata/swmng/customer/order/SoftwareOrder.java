@@ -199,7 +199,7 @@ public class SoftwareOrder extends JPanel {
 		gbc_lbldate.gridx = 1;
 		gbc_lbldate.gridy = 6;
 		mainpanel.add(lbldate, gbc_lbldate);
-//--------------------------------------------
+		// --------------------------------------------
 		JPanel panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 5, 5);
@@ -212,7 +212,7 @@ public class SoftwareOrder extends JPanel {
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(datePicker1);
 		datePicker1.setPreferredSize(new Dimension(130, 27));
-//--------------------------------------------
+		// --------------------------------------------
 		lblTitlePic = new JLabel("제품사진");
 		GridBagConstraints gbc_lblTitlePic = new GridBagConstraints();
 		gbc_lblTitlePic.anchor = GridBagConstraints.EAST;
@@ -230,7 +230,7 @@ public class SoftwareOrder extends JPanel {
 		gbc_TitlePic.gridx = 2;
 		gbc_TitlePic.gridy = 7;
 		mainpanel.add(TitlePic, gbc_TitlePic);
-		
+
 		JPanel btnpanel = new JPanel();
 		add(btnpanel, BorderLayout.SOUTH);
 		GridBagLayout gbl_btnpanel = new GridBagLayout();
@@ -268,8 +268,9 @@ public class SoftwareOrder extends JPanel {
 		btnpanel.add(btnreset, gbc_btnreset);
 		setComList();
 	}
-	//콤보박스 리스트
-	private void setComList(){
+
+	// 콤보박스 리스트
+	private void setComList() {
 		list = BuyerService.getInstance().selectShopName();
 		for (Buyer b : list) {
 			cbcoName.addItem(b.getShopName());
@@ -279,47 +280,52 @@ public class SoftwareOrder extends JPanel {
 			cbtitle.addItem(s.getTitle());
 		}
 	}
-	private void setTitleImg(){
+
+	private void setTitleImg() {
 		String title = cbtitle.getSelectedItem() + "";
 		Software s = SoftwareService.getInstance().selectSWBytitle(title);
-	
+
 		try {
-			TitlePic.setIcon(new ImageIcon(new ImageIcon(s.getPicPath()).getImage().getScaledInstance(160, 140,
-					java.awt.Image.SCALE_SMOOTH)));
+			TitlePic.setIcon(new ImageIcon(
+					new ImageIcon(s.getPicPath()).getImage().getScaledInstance(160, 140, java.awt.Image.SCALE_SMOOTH)));
 		} catch (NullPointerException e) {
 			TitlePic.setIcon(null);
 		}
 	}
-	//입금여부확인
-	private void payCheck(){
+
+	// 입금여부확인
+	private void payCheck() {
 		if (chchck.isSelected()) {
 			chchck.setText("입금   ");
 		} else {
 			chchck.setText("미입금");
 		}
 	}
-	//등록확인
-	private void addCheck(){
-			if (tfcount.getText().trim().equals("")) {
-				JOptionPane.showMessageDialog(null, "주문수량을 입력해주세요");
-			}else if(tfcount.getText().trim().matches("[0]{1,9}")){
-				JOptionPane.showMessageDialog(null, "다시 입력하세요.");
-				refresh();
-				return;
-			}else if(!tfcount.getText().trim().matches("^[0-9]{1,9}$")){
-				if (tfcount.getText().trim().matches("[0-9]{10,30}")) {
-					JOptionPane.showMessageDialog(null, "주문가능수량을 초과하였습니다");
-					refresh();
-					return;
-				}
+
+	// 등록확인
+	private void addCheck() {
+		
+		if (tfcount.getText().trim().equals("")) {
+			JOptionPane.showMessageDialog(null, "주문수량을 입력해주세요");
+			
+		} else if (tfcount.getText().trim().matches("[0]{1,9}")) {
+			JOptionPane.showMessageDialog(null, "다시 입력하세요.");
+			
+		} else if (!tfcount.getText().trim().matches("^[0-9]{1,9}$")) {
+			
+			if (tfcount.getText().trim().matches("[0-9]{10,30}")) {
+				JOptionPane.showMessageDialog(null, "주문가능수량을 초과하였습니다");
+			} else {
 				JOptionPane.showMessageDialog(null, "주문수량은 정수만입력가능합니다");
-				refresh();
-			}else{
-				JOptionPane.showMessageDialog(null, "등록완료");
-				add();
-				refresh();
 			}
+			
+		} else {
+			JOptionPane.showMessageDialog(null, "등록완료");
+			add();
+		}
+		refresh();
 	}
+
 	void add() {
 		String[] strDate = datePicker1.getJFormattedTextField().getText().split("/");
 		int[] numDateArr = new int[3];
@@ -338,13 +344,14 @@ public class SoftwareOrder extends JPanel {
 		} else {
 			payment = false;
 		}
-	
+
 		Date date = time.getTime();
 		Sale s = new Sale(no, shopName, title, orderCount, payment, date);
 		SaleService.getInstance().insertItem(s);
 
 	}
-	private void refresh(){
+
+	private void refresh() {
 		cbcoName.setSelectedIndex(0);
 		cbtitle.setSelectedIndex(0);
 		tfcount.setText("");

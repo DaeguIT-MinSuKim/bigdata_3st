@@ -64,11 +64,13 @@ public class SaleStateByBuyer extends JPanel {
 		lblTotalSales = new JLabel("매출액 합계 : ");
 		lblTotalSales.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtTotalSales = new JTextField();
+		txtTotalSales.setFont(new Font("굴림", Font.BOLD, 12));
 		txtTotalSales.setEditable(false);
 		txtTotalSales.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblTotalNotYet = new JLabel("미수금 합계 : ");
 		lblTotalNotYet.setHorizontalAlignment(SwingConstants.RIGHT);
 		txtTotalNotYet = new JTextField();
+		txtTotalNotYet.setFont(new Font("굴림", Font.BOLD, 12));
 		txtTotalNotYet.setEditable(false);
 		txtTotalNotYet.setHorizontalAlignment(SwingConstants.RIGHT);
 

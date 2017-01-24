@@ -64,15 +64,18 @@ public class SaleStateBySoftware extends JPanel {
 		lblLeft = new JLabel("공급금액 합계 :");
 		lblLeft.setFont(new Font("굴림", Font.PLAIN, 11));
 		txtLeft = new JTextField();
-		txtLeft.setFont(new Font("굴림", Font.PLAIN, 11));
+		txtLeft.setEditable(false);
+		txtLeft.setFont(new Font("굴림", Font.BOLD, 11));
 		txtCenter = new JTextField();
-		txtCenter.setFont(new Font("굴림", Font.PLAIN, 11));
+		txtCenter.setEditable(false);
+		txtCenter.setFont(new Font("굴림", Font.BOLD, 11));
 		lblCenter = new JLabel("판매금액 합계 :");
 		lblCenter.setFont(new Font("굴림", Font.PLAIN, 11));
 		lblRight = new JLabel("판매이윤 합계 :");
 		lblRight.setFont(new Font("굴림", Font.PLAIN, 11));
 		txtRight = new JTextField();
-		txtRight.setFont(new Font("굴림", Font.PLAIN, 11));
+		txtRight.setEditable(false);
+		txtRight.setFont(new Font("굴림", Font.BOLD, 11));
 
 		setLayout(new BorderLayout(0, 0));
 		pnForControl.setBorder(new EmptyBorder(10, 10, 10, 10));
