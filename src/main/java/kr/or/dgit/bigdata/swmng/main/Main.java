@@ -218,7 +218,7 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 			setSize(700, 394);
 		} else if (e.getSource() == subMenuBtns[3]) {
 			mainPanel.add(new SaleStateByBuyer(), BorderLayout.CENTER);
-			setSize(740, 394);
+			setSize(880, 394);
 		} else if (e.getSource() == subMenuBtns[4]) {
 			mainPanel.add(new SaleStateBySoftware(), BorderLayout.CENTER);
 			setSize(800, 394);
@@ -230,7 +230,8 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 			setSize(950, 394);
 		} else if (e.getSource() == subMenuBtns[7]) {
 			mainPanel.add(new OrderStateGraph(), BorderLayout.CENTER);
-			setBounds(getX(), 150, 700, 845);
+			//setBounds(getX(), 150, 700, 845);
+			setSize(700, 845);
 		} else if (e.getSource() == subMenuBtns[8]) {
 			mainPanel.add(new SoftwareOrder(), BorderLayout.CENTER);
 			setSize(500, 394);
