@@ -230,13 +230,14 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 			setSize(950, 394);
 		} else if (e.getSource() == subMenuBtns[7]) {
 			mainPanel.add(new OrderStateGraph(), BorderLayout.CENTER);
-			//setBounds(getX(), 150, 700, 845);
-			setSize(700, 845);
+			setBounds(getX(), 150, 700, 845);
 		} else if (e.getSource() == subMenuBtns[8]) {
 			mainPanel.add(new SoftwareOrder(), BorderLayout.CENTER);
 			setSize(500, 394);
 		} else if (e.getSource() == btnLogout) {
-			LoggedIn.getAdminThread().interrupt();
+			if (LoggedIn.getAdminThread() != null) {
+				LoggedIn.getAdminThread().interrupt();
+			}
 			executeLogOut();
 			sidePanel.setVisible(false);
 			mainPanel.add(new LoginForm(), BorderLayout.CENTER);
