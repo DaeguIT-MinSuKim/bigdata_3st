@@ -173,13 +173,13 @@ public class SaleStateReport extends JPanel implements ActionListener {
 
 		List<Sale> reportlist = SaleService.getInstance().selectAllSortSupplier();
 
-		String[] COL_NAMES = { "공급회사명", "주문일자", "고객상호", "품명", "수량", "단가", "금액", "세금", "총납품금액" };
+		String[] COL_NAMES = { "공급회사명", "일자", "고객상호", "품명", "수량", "단가", "금액", "세금", "총납품금액" };
 		String[][] data = new String[reportlist.size()][COL_NAMES.length];
 
 		int idx = 0;
-		int total = 0;
+		long total = 0;
 
-		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+		SimpleDateFormat format = new SimpleDateFormat("yyMMdd");
 		String beforeConame = "";
 
 		for (Sale c : reportlist) {

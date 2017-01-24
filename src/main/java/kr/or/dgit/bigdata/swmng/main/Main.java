@@ -8,6 +8,7 @@ import java.awt.EventQueue;
 import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.GridLayout;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -227,10 +228,12 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 			setSize(680, 394);
 		} else if (e.getSource() == subMenuBtns[6]) {
 			mainPanel.add(new SaleStateReport(), BorderLayout.CENTER);
-			setSize(950, 394);
+			setSize(850, 394);
 		} else if (e.getSource() == subMenuBtns[7]) {
 			mainPanel.add(new OrderStateGraph(), BorderLayout.CENTER);
-			setBounds(getX(), 150, 700, 845);
+			Dimension screen =Toolkit.getDefaultToolkit().getScreenSize(); // 모니터화면의 해상도 얻기
+			setBounds(screen.width/5, getY(), 1250, 500);
+			
 		} else if (e.getSource() == subMenuBtns[8]) {
 			mainPanel.add(new SoftwareOrder(), BorderLayout.CENTER);
 			setSize(500, 394);
@@ -285,7 +288,6 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 				subMenuBtns[9].doClick();
 			}
 		}
-
 	}
 
 	@Override

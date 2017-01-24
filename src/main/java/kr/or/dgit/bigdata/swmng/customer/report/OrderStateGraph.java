@@ -24,7 +24,8 @@ import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.paint.Color;
 import kr.or.dgit.bigdata.swmng.service.SaleService;
 import kr.or.dgit.bigdata.swmng.util.CreateDatabaseAuto;
@@ -63,7 +64,7 @@ public class OrderStateGraph extends JPanel {
 		AnchorPane anchorPane = new AnchorPane();
 
 		Scene scene = new Scene(anchorPane, Color.BEIGE);
-		VBox box = new VBox();
+		HBox box = new HBox();
 		box.prefWidthProperty().bind(anchorPane.widthProperty());
 		box.prefHeightProperty().bind(anchorPane.heightProperty());
 		box.setStyle("-fx-alignment:center;");
@@ -72,7 +73,14 @@ public class OrderStateGraph extends JPanel {
 		xAxis = new CategoryAxis();
 		bc = new BarChart<String, Number>(xAxis, yAxis);
 		PieChart pie = new PieChart();
+		
+		HBox.setHgrow(bc, Priority.ALWAYS);
+		HBox.setHgrow(pie, Priority.ALWAYS);
+		bc.setMaxWidth(Double.MAX_VALUE);
+		pie.setMaxWidth(Double.MAX_VALUE);
 		box.getChildren().addAll(bc, pie);
+		
+
 		anchorPane.getChildren().addAll(box);
 
 		bc.setTitle("고객별 주문수량");

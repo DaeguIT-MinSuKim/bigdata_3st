@@ -109,7 +109,7 @@ public class SaleStateBySoftware extends JPanel {
 		pnForTable.add(scrollPane, BorderLayout.CENTER);
 
 		add(pnForResult, BorderLayout.SOUTH);
-		pnForResult.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		pnForResult.setLayout(new GridLayout(0, 6, 0, 0));
 		pnForResult.add(lblLeft);
 		pnForResult.add(txtLeft);
 		pnForResult.add(lblCenter);

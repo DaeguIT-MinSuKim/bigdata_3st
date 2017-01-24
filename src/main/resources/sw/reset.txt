@@ -144,7 +144,7 @@ insert into sale(no,shopname,title,ordercount,payment,date) values
 (7,'친구게임방','바람의제국',80,false,'2010-10-04'),
 (8,'대전광역시교육청','포토샵',50,false,'2010-10-04'),
 (9,'아산시스템','포토샵',42,false,'2010-10-04'),
-(10,'충청남도교육청','한컴오피스',110,false,'2010-10-04');
+(10,'충청남도교육청','한컴오피스',50,false,'2010-10-04');
 
 
 -- 공급회사 자료입력
@@ -163,11 +163,11 @@ insert into software(no,category,title,picpath,supprice,sellprice,coname) values
 (3,'게임','FIFA2015',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/3.gif'),27000 ,40500 ,'참빛소프트'),
 (4,'게임','삼국지',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/4.gif'),32000 ,48000 ,'소프트마켓'),
 (5,'게임','아마겟돈',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/5.gif'),35000 ,50750 ,'크라이스'),
-(6,'사무','한컴오피스',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/6.gif'),1370000 ,1918000 ,'프로그램캠프'),
-(7,'그래픽','포토샵',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/7.gif'),980000 ,1519000 ,'참빛소프트'),
+(6,'사무','한컴오피스',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/6.gif'),370000 ,1918000 ,'프로그램캠프'),
+(7,'그래픽','포토샵',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/7.gif'),580000 ,1519000 ,'참빛소프트'),
 (8,'그래픽','오토캐드2015',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/8.gif'),2340000 ,3978000 ,'소프트마켓'),
-(9,'그래픽','인디자인',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/9.gif'),1380000 ,2180400 ,'알럽소프트'),
-(10,'사무','Windows10',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/10.gif'),2470000 ,3334500 ,'인디넷');
+(9,'그래픽','인디자인',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/9.gif'),380000 ,2180400 ,'알럽소프트'),
+(10,'사무','Windows10',LOAD_FILE('C:/ProgramData/MySQL/MySQL Server 5.6/Uploads/sw/10.gif'),470000 ,3334500 ,'인디넷');
 
 -- 고객 자료입력
 insert into buyer(no,shopname,address,tel,picPath) values
