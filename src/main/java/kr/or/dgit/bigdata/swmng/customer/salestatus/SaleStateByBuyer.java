@@ -140,8 +140,8 @@ public class SaleStateByBuyer extends JPanel {
 		int idx = 0;
 		int rowCnt = 0;
 
-		int sum1 = 0;
-		int sum2 = 0;
+		long sum1 = 0;
+		long sum2 = 0;
 
 		for (Sale c : list) {
 			rowCnt++;
@@ -152,7 +152,7 @@ public class SaleStateByBuyer extends JPanel {
 		}
 		rowCnt = idx;
 
-		int[] temp = { sum1, sum2 };
+		long[] temp = { sum1, sum2 };
 		String[] rArr = checkZero(temp);// 합계가 0인지 체크 //if 0 이면 '-'표시
 
 		txtTotalSales.setText(rArr[0]); // <-매출금합계 적용
@@ -165,7 +165,7 @@ public class SaleStateByBuyer extends JPanel {
 
 	}
 
-	private String[] checkZero(int[] temp) { // 매출합계 , 미수금 합계 가 '0'이면 -> '-'으로
+	private String[] checkZero(long[] temp) { // 매출합계 , 미수금 합계 가 '0'이면 -> '-'으로
 												// 출력 ,데이터 있으면 원본 출력
 		String[] rArr = new String[2];
 		for (int i = 0; i < temp.length; i++) {

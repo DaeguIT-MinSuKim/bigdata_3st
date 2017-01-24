@@ -8,6 +8,5 @@ select
 		sum(orderCount*sellPrice) saleAmount,
 		sum((orderCount*sellPrice)-(orderCount*supPrice)) saleProfits
 		from sale
-		where title = '바람의제국'
 		group by coName
 		ORDER BY category;

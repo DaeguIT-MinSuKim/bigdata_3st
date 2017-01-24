@@ -134,7 +134,7 @@ public class SaleStateReport extends JPanel implements ActionListener {
 		String[][] data = new String[reportlist.size()][COL_NAMES.length];
 		
 		int idx = 0;
-		int total = 0;
+		long total = 0;
 		
 		String beforeDate = "";
 		SimpleDateFormat format = new SimpleDateFormat("yyyy년MM월dd");
@@ -183,10 +183,10 @@ public class SaleStateReport extends JPanel implements ActionListener {
 		String beforeConame = "";
 
 		for (Sale c : reportlist) {
-			int orderCnt = c.getOrderCount();
-			int supPrice = c.getSupPrice();
-			int cost = orderCnt * supPrice;
-			int tax = (int) (cost * 0.1);
+			long orderCnt = c.getOrderCount();
+			long supPrice = c.getSupPrice();
+			long cost = orderCnt * supPrice;
+			long tax = (long) (cost * 0.1);
 
 			String coname = c.getCoName();
 			if (beforeConame.equals(coname)) {

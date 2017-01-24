@@ -7,27 +7,27 @@ public class Sale {
 	private int no;
 	private String shopName;
 	private String title;
-	private int orderCount;
+	private long orderCount;
 	private boolean payment;
 	private Date date;
-	private int supPrice;
-	private int sellPrice; // 판매가격
+	private long supPrice;
+	private long sellPrice; // 판매가격
 	private String coName;
 	private String category;
 
 	// 곽문한 추가
 	// 고객 별 판매현황
-	private int salePrice; //매출금
-	private int saleAccount; // 미수금
+	private long salePrice; //매출금
+	private long saleAccount; // 미수금
 	// SW 별 판매현황 
-	private int supAmount; // 공급금액
-	private int saleAmount;// 판매금액
-	private int saleProfits;//판매이윤
+	private long supAmount; // 공급금액
+	private long saleAmount;// 판매금액
+	private long saleProfits;//판매이윤
 
 	
 	public Sale() {}
 	
-	public Sale(int no, String shopName, String title, int orderCount, boolean payment, Date date) {
+	public Sale(int no, String shopName, String title, long orderCount, boolean payment, Date date) {
 		this.no = no;
 		this.shopName = shopName;
 		this.title = title;
@@ -36,8 +36,8 @@ public class Sale {
 		this.date = date;
 	}
 	
-	public Sale(int no, String shopName, String title, int orderCount, boolean payment, 
-				Date date, int supPrice,int sellPrice, String coName) {
+	public Sale(int no, String shopName, String title, long orderCount, boolean payment, 
+				Date date, long supPrice,long sellPrice, String coName) {
 		
 		this.no = no;
 		this.shopName = shopName;
@@ -51,8 +51,8 @@ public class Sale {
 	}
 
 	
-	public Sale(int no, String shopName, String title, int orderCount, boolean payment,
-				Date date, int supPrice,int sellPrice, String coName, String category) {
+	public Sale(int no, String shopName, String title, long orderCount, boolean payment,
+				Date date, long supPrice,long sellPrice, String coName, String category) {
 		
 		this.no = no;
 		this.shopName = shopName;
@@ -88,8 +88,8 @@ public class Sale {
 	public String getTitle() {return title;}
 	public void setTitle(String title) {this.title = title;}
 
-	public int getOrderCount() {return orderCount;}
-	public void setOrderCount(int orderCount) {this.orderCount = orderCount;}
+	public long getOrderCount() {return orderCount;}
+	public void setOrderCount(long orderCount) {this.orderCount = orderCount;}
 
 	public boolean isPayment() {return !payment;}
 	public void setPayment(boolean payment) {this.payment = payment;}
@@ -97,38 +97,38 @@ public class Sale {
 	public Date getDate() {return date;}
 	public void setDate(Date date) {this.date = date;}
 
-	public int getSupPrice() {return supPrice;}
-	public void setSupPrice(int supPrice) {this.supPrice = supPrice;}
+	public long getSupPrice() {return supPrice;}
+	public void setSupPrice(long supPrice) {this.supPrice = supPrice;}
 
-	public int getSellPrice() {return sellPrice;}
-	public void setSellPrice(int sellPrice) {this.sellPrice = sellPrice;}
+	public long getSellPrice() {return sellPrice;}
+	public void setSellPrice(long sellPrice) {this.sellPrice = sellPrice;}
 
 	public String getCoName() {return coName;}
 	public void setCoName(String coName) {this.coName = coName;}
 
 	
-	public int getSalePrice() {
+	public long getSalePrice() {
 		salePrice = orderCount*sellPrice;
 		return salePrice;
 	}
-	public void setSalePrice(int salePrice) {this.salePrice = salePrice;}
+	public void setSalePrice(long salePrice) {this.salePrice = salePrice;}
 
 	
-	public int getSaleAccount() {
+	public long getSaleAccount() {
 		if(!isPayment()){
 			saleAccount = orderCount*sellPrice;
 		}
 		return saleAccount;
 	}
-	public void setSaleAccount(int saleAccount) {this.saleAccount = saleAccount;}
+	public void setSaleAccount(long saleAccount) {this.saleAccount = saleAccount;}
 
 	
-	public int getSupAmount() {return supAmount;}
-	public void setSupAmount(int supAmount) {this.supAmount = supAmount;}
+	public long getSupAmount() {return supAmount;}
+	public void setSupAmount(long supAmount) {this.supAmount = supAmount;}
 
-	public int getSaleAmount() {return saleAmount;}
-	public void setSaleAmount(int saleAmount) {this.saleAmount = saleAmount;}
+	public long getSaleAmount() {return saleAmount;}
+	public void setSaleAmount(long saleAmount) {this.saleAmount = saleAmount;}
 
-	public int getSaleProfits() {return saleProfits;}
-	public void setSaleProfits(int saleProfits) {this.saleProfits = saleProfits;}
+	public long getSaleProfits() {return saleProfits;}
+	public void setSaleProfits(long saleProfits) {this.saleProfits = saleProfits;}
 }

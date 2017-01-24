@@ -152,9 +152,9 @@ public class SaleStateBySoftware extends JPanel {
 		int idx = 0;
 		int rowCnt = 0;
 
-		int sum1 = 0;
-		int sum2 = 0;
-		int sum3 = 0;
+		long sum1 = 0;
+		long sum2 = 0;
+		long sum3 = 0;
 		for (Sale s : list) {
 
 			data = getRowData(data, s, idx);
@@ -167,7 +167,7 @@ public class SaleStateBySoftware extends JPanel {
 		
 		//합계가 0인지 체크 
 		//if 0 이면 '-'표시
-		int[] temp = { sum1, sum2, sum3 };
+		long[] temp = { sum1, sum2, sum3 };
 		String[] rArr = checkZero(temp); 
 
 		txtLeft.setText(rArr[0]);
@@ -180,7 +180,7 @@ public class SaleStateBySoftware extends JPanel {
 		handleTableDesign();
 	}
 
-	private String[] checkZero(int[] temp) {  // 공금금액 합계,판매금액 합계,판매이윤 합계 가 '0'이면 -> '-'으로 출력 ,데이터 있으면 원본 출력
+	private String[] checkZero(long[] temp) {  // 공금금액 합계,판매금액 합계,판매이윤 합계 가 '0'이면 -> '-'으로 출력 ,데이터 있으면 원본 출력
 		String[] rArr = new String[3];
 		for (int i = 0; i < temp.length; i++) {
 			if (temp[i] == 0) {
