@@ -1,14 +1,18 @@
 ﻿-- SW판매관리
-DROP SCHEMA IF EXISTS swMng;
-
--- SW판매관리
-CREATE SCHEMA swMng;
+CREATE SCHEMA if not exists swMng;
 
 -- 유저 생성
 grant select, insert, update, delete on swmng.* to 'user_mng' identified by 'rootroot';
 
 -- 데이터베이스 선택
 use swMng;
+
+-- 테이블 초기화
+drop table if exists software;
+drop table if exists buyer;
+drop table if exists sale;
+drop table if exists member;
+drop table if exists company;
 
 -- 공급회사
 CREATE TABLE company (
@@ -105,24 +109,6 @@ ALTER TABLE software
 		on update cascade;
 
 -- 트리거 생성
--- software테이블 업데이트시 sale테이블에 업데이트된 title,category 업데이트
-CREATE 
-  TRIGGER tri_update_software after 
-  update ON software 
-  FOR EACH row  
-  update sale 
-  set title = new.title,
-  category = new.category
-  where title = old.title;
-
--- buyer테이블 업데이트시 sale테이블에 shopName 업데이트
-CREATE 
-  TRIGGER tri_update_buyer after 
-  update ON buyer 
-  FOR EACH row  
-  update sale set shopName = new.shopName
-  where shopName = old.shopName;
- 
 -- 초기화시 필요함 , 일회성
 CREATE 
   TRIGGER tri_insert_software after 
@@ -132,7 +118,7 @@ CREATE
   set supPrice = new.supPrice, 
   sellPrice = new.sellPrice, 
   coName = new.coName,
-  category = new.category
+  category = new.category 
   where title = new.title;
 
 
@@ -149,16 +135,16 @@ new.category=(select category from software where new.title=title);
 
 -- 판매 자료입력 순서중요함 sale이 항상먼저
 insert into sale(no,shopname,title,ordercount,payment,date) values
-(1,'재밌는게임방','바람의제국',25,false,'2009-12-13'),
-(2,'친구게임방','아마겟돈',25,false,'2010-09-13'),
+(1,'재밌는게임방','바람의제국',45,false,'2009-12-13'),
+(2,'친구게임방','아마겟돈',55,false,'2010-09-13'),
 (3,'좋은게임방','삼국지',20,false,'2010-09-11'),
 (4,'재밌는게임방','삼국지',25,false,'2010-10-02'),
-(5,'충청남도교육청','인디자인',250,true,'2010-10-02'),
-(6,'아산시스템','인디자인',2,true,'2010-10-02'),
-(7,'친구게임방','바람의제국',20,false,'2010-10-04'),
-(8,'대전광역시교육청','포토샵',20,false,'2010-10-04'),
-(9,'아산시스템','포토샵',2,false,'2010-10-04'),
-(10,'충청남도교육청','한컴오피스',320,false,'2010-10-04');
+(5,'충청남도교육청','인디자인',50,true,'2010-10-02'),
+(6,'아산시스템','인디자인',25,true,'2010-10-02'),
+(7,'친구게임방','바람의제국',80,false,'2010-10-04'),
+(8,'대전광역시교육청','포토샵',50,false,'2010-10-04'),
+(9,'아산시스템','포토샵',42,false,'2010-10-04'),
+(10,'충청남도교육청','한컴오피스',110,false,'2010-10-04');
 
 
 -- 공급회사 자료입력

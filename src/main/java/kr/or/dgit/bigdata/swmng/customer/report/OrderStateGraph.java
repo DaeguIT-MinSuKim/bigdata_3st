@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
@@ -26,20 +27,17 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import kr.or.dgit.bigdata.swmng.service.SaleService;
+import kr.or.dgit.bigdata.swmng.util.CreateDatabaseAuto;
 
 @SuppressWarnings("serial")
 public class OrderStateGraph extends JPanel {
 
 	private static List<Map<String, Object>> listmapForbc;
 	private static List<Map<String, Object>> listmapForPie;
-
 	private static BarChart<String, Number> bc;
 	private static NumberAxis yAxis;
 	private static CategoryAxis xAxis;
 
-	/**
-	 * Create the panel.
-	 */
 	public OrderStateGraph() {
 		setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
 		setLayout(new BorderLayout(0, 0));
@@ -63,13 +61,13 @@ public class OrderStateGraph extends JPanel {
 	private static void initFX(JFXPanel fxPanel) {
 		// This method is invoked on the JavaFX thread
 		AnchorPane anchorPane = new AnchorPane();
-		
+
 		Scene scene = new Scene(anchorPane, Color.BEIGE);
 		VBox box = new VBox();
 		box.prefWidthProperty().bind(anchorPane.widthProperty());
 		box.prefHeightProperty().bind(anchorPane.heightProperty());
 		box.setStyle("-fx-alignment:center;");
-		
+
 		yAxis = new NumberAxis();
 		xAxis = new CategoryAxis();
 		bc = new BarChart<String, Number>(xAxis, yAxis);
@@ -81,32 +79,40 @@ public class OrderStateGraph extends JPanel {
 		yAxis.setLabel("주문수량");
 		xAxis.setLabel("상호명");
 
-		listmapForbc = SaleService.getInstance().selectAllGroupByConame();
-		listmapForPie = SaleService.getInstance().selectSalesOfEach();
+		try {
+			listmapForbc = SaleService.getInstance().selectAllGroupByConame();
+		} catch (Exception e) {
+			if (JOptionPane.showConfirmDialog(null, "데이터가 없습니다. 초기화 하시겠습니까?") == 0) {
+				new CreateDatabaseAuto().resetDB();
+				listmapForbc = SaleService.getInstance().selectAllGroupByConame();
+			} else {
+				System.exit(0);
+			}
 
+		}
+
+		listmapForPie = SaleService.getInstance().selectSalesOfEach();
 		XYChart.Series series1 = new XYChart.Series();
 
 		for (int i = 0; i < listmapForbc.size(); i++) {
-			
 			Map<String, Object> tempMap = listmapForbc.get(i);
 			series1.getData().add(new XYChart.Data(tempMap.get("shopName"), tempMap.get("totalCnt")));
 		}
-		
+
 		bc.getData().addAll(series1);
 
 		BigDecimal result = BigDecimal.valueOf(0);
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-		
-		
+
 		for (int i = 0; i < listmapForPie.size(); i++) {
-			
+
 			Map<String, Object> tempMap = listmapForPie.get(i);
 			BigDecimal bd = (BigDecimal) tempMap.get("result");
 			result = result.add(bd);
 		}
 
 		for (int i = 0; i < listmapForPie.size(); i++) {
-			
+
 			Map<String, Object> tempMap = listmapForPie.get(i);
 			BigDecimal bd = (BigDecimal) tempMap.get("result");
 			BigDecimal ratio = bd.divide(result, 3, BigDecimal.ROUND_UP);
@@ -122,8 +128,7 @@ public class OrderStateGraph extends JPanel {
 		pie.setLegendSide(Side.BOTTOM);
 		pie.lookup(".chart-title").setStyle("-fx-font-size: 1.8em");
 		pie.lookup(".chart-legend").setStyle("-fx-background-color:  transparent");
-		
-		
+
 		tableDesignSetting();
 		fxPanel.setScene(scene);
 	}
@@ -137,7 +142,7 @@ public class OrderStateGraph extends JPanel {
 		bc.setBarGap(0.0);
 		bc.setCategoryGap(40);
 		bc.setLegendVisible(false);
-		
+
 		xAxis.lookup(".axis-label").setStyle("-fx-label-padding:15 0 10 0");
 		xAxis.setTickLength(5);
 		xAxis.setTickLabelGap(5);

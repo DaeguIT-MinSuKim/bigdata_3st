@@ -93,7 +93,7 @@ public class SoftwareOrder extends JPanel {
 
 		tfNo = new JTextField();
 		tfNo.setEnabled(false);
-		tfNo.setText(SaleService.getInstance().selectMaxNo().getNo() + "");
+		
 		GridBagConstraints gbc_tfNo = new GridBagConstraints();
 		gbc_tfNo.fill = GridBagConstraints.BOTH;
 		gbc_tfNo.insets = new Insets(0, 0, 5, 5);
@@ -267,6 +267,7 @@ public class SoftwareOrder extends JPanel {
 		gbc_btnreset.gridy = 0;
 		btnpanel.add(btnreset, gbc_btnreset);
 		setComList();
+		refresh();
 	}
 
 	// 콤보박스 리스트
@@ -284,7 +285,6 @@ public class SoftwareOrder extends JPanel {
 	private void setTitleImg() {
 		String title = cbtitle.getSelectedItem() + "";
 		Software s = SoftwareService.getInstance().selectSWBytitle(title);
-
 		try {
 			TitlePic.setIcon(new ImageIcon(
 					new ImageIcon(s.getPicPath()).getImage().getScaledInstance(160, 140, java.awt.Image.SCALE_SMOOTH)));
@@ -352,6 +352,7 @@ public class SoftwareOrder extends JPanel {
 	}
 
 	private void refresh() {
+		tfNo.setText(SaleService.getInstance().selectMaxNo().getNo() + "");
 		cbcoName.setSelectedIndex(0);
 		cbtitle.setSelectedIndex(0);
 		tfcount.setText("");
