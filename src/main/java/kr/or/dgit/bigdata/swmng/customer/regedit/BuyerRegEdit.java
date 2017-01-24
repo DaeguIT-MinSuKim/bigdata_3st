@@ -129,7 +129,8 @@ public class BuyerRegEdit extends JPanel implements ActionListener, RegEditInter
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ZipcodeSearch("Buyer").setVisible(true);;
+				new ZipcodeSearch("Buyer").setVisible(true);
+				;
 			}
 		});
 		AddPanel.add(btnSearch, gbc_btnSearch);
@@ -345,13 +346,15 @@ public class BuyerRegEdit extends JPanel implements ActionListener, RegEditInter
 
 	@Override
 	public boolean inputValidation() {
-		if (tfNo.getText().equals("") || tfShopName.getText().trim().equals("") || tfAddress.getText().trim().equals("")
-				|| tfTel.getText().trim().equals("")) {
+		if (tfNo.getText().equals("") || tfShopName.getText().trim().equals("")
+				|| tfAddress.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "빈칸없이 입력해 주세요");
 			return false;
-		} else {
-			return true;
+		} else if (!tfTel.getText().matches("[0-9]{2,3}-[0-9]{4}-[0-9]{4}")) {
+			JOptionPane.showMessageDialog(null, "전화번호를 다시 입력해주세요");
+			return false;
 		}
+		return true;
 	}
 
 	@Override
@@ -397,7 +400,6 @@ public class BuyerRegEdit extends JPanel implements ActionListener, RegEditInter
 	public static JTextField getTfAddress() {
 		return tfAddress;
 	}
-
 
 	public static JTextField getTfZipcode() {
 		return tfZipcode;

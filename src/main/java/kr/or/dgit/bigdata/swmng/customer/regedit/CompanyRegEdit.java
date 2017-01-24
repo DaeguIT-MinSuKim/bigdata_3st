@@ -190,15 +190,12 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 		} else if (e.equals("수정")) {
 			lblTitle.setText("공급회사 정보 수정");
 			updateAction(flag);
-		} 
+		}
 	}
-
 
 	public static JTextField getTfZipcode() {
 		return tfZipcode;
 	}
-
-
 
 	public static JTextField getTfAddress() {
 		return tfAddress;
@@ -253,7 +250,6 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 
 	}
 
-
 	@Override
 	public void refresh(JPanel p) {
 		removeAll();
@@ -264,14 +260,16 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 
 	@Override
 	public boolean inputValidation() {
-		if (tfNo.getText().equals("") || tfCoName.getText().trim().equals("") || tfZipcode.getText().trim().equals("")
-				|| tfTel.getText().trim().equals("")) {
+		// !tfTel.getText().matches("[0-9]{2,3}-[0-9]{4}-[0-9]{4}"
+		if (tfNo.getText().equals("") || tfCoName.getText().trim().equals("")
+				|| tfZipcode.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "빈칸없이 입력해 주세요");
 			return false;
-		} else {
-			return true;
+		} else if (!tfTel.getText().matches("[0-9]{2,3}-[0-9]{4}-[0-9]{4}")) {
+			JOptionPane.showMessageDialog(null, "전화번호를 다시 입력해주세요");
+			return false;
 		}
-
+		return true;
 	}
 
 	@Override
