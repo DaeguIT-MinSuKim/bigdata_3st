@@ -172,7 +172,7 @@ public class SaleStateByBuyer extends JPanel {
 			if (temp[i] == 0) {
 				rArr[i] = "-";
 			} else {
-				rArr[i] = String.format("%,d", temp[i]) + "원";
+				rArr[i] = String.format("%,d", temp[i]) + " 원";
 			}
 		}
 		return rArr;
@@ -222,9 +222,9 @@ public class SaleStateByBuyer extends JPanel {
 		data[idx][2] = String.format("%,d", c.getOrderCount());
 		data[idx][3] = c.isPayment();
 
-		data[idx][4] = String.format("%,d", c.getSellPrice()) + "원";
-		data[idx][5] = String.format("%,d", c.getSalePrice()) + "원";
-		data[idx][6] = String.format("%,d", c.getSaleAccount()) + "원";
+		data[idx][4] = String.format("%,d", c.getSellPrice()) + " 원";
+		data[idx][5] = String.format("%,d", c.getSalePrice()) + " 원";
+		data[idx][6] = String.format("%,d", c.getSaleAccount()) + " 원";
 		return data;
 	}
 }

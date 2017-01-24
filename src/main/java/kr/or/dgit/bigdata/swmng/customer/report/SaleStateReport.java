@@ -33,15 +33,16 @@ import javax.swing.JButton;
 
 @SuppressWarnings("serial")
 public class SaleStateReport extends JPanel implements ActionListener {
+	
 	private JRadioButton rdTotalSale;
 	private JRadioButton rdTradeDetail;
 	private JPanel panelForTable;
 	private JTable table;
 	private JScrollPane scrollPane;
 	private ModelForTable mft;
-	private JPanel panel_2;
-	private JLabel lblNewLabel;
-	private JTextField textField;
+	private JPanel pnForResult;
+	private JLabel lblResult;
+	private JTextField txtResult;
 
 	public SaleStateReport() {
 		try {
@@ -51,63 +52,70 @@ public class SaleStateReport extends JPanel implements ActionListener {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		setLayout(new BorderLayout(0, 0));
-
-		JPanel panel = new JPanel();
-		add(panel, BorderLayout.NORTH);
-		panel.setLayout(new BorderLayout(0, 0));
-
+		
+		
+		/* 컴포넌트 생성 */
+		JPanel pnForControl = new JPanel();
 		JLabel title = new JLabel("판매현황 보고서");
-		title.setHorizontalAlignment(SwingConstants.CENTER);
-		title.setFont(new Font("굴림", Font.BOLD, 18));
-		panel.add(title, BorderLayout.NORTH);
-
-		JPanel panel_1 = new JPanel();
-		panel_1.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)), "\uBCF4\uACE0\uC11C \uC120\uD0DD",
-				TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
-		panel.add(panel_1, BorderLayout.CENTER);
-
+		JPanel subPnForControl = new JPanel();
 		rdTotalSale = new JRadioButton("S/W 전체 판매현황");
 		rdTradeDetail = new JRadioButton("거래명세서");
-		panel_1.add(rdTotalSale);
-		panel_1.add(rdTradeDetail);
-
 		ButtonGroup group = new ButtonGroup(); // 라디오버튼 그룹화를 위한 버튼그룹 설정
 		group.add(rdTotalSale);
 		group.add(rdTradeDetail);
+		panelForTable = new JPanel();
+		table = new JTable();
+		scrollPane = new JScrollPane();
 
+		pnForResult = new JPanel();
+		lblResult = new JLabel("합계 : ");
+		txtResult = new JTextField();
+
+
+		/* 컴포넌트 레이아웃 */
+		setLayout(new BorderLayout(0, 0));
+		pnForControl.setLayout(new BorderLayout(0, 0));
+		title.setHorizontalAlignment(SwingConstants.CENTER);
+		title.setFont(new Font("굴림", Font.BOLD, 18));
+		subPnForControl.setBorder(new TitledBorder(new LineBorder(new Color(64, 64, 64)),
+				"\uBCF4\uACE0\uC11C \uC120\uD0DD", TitledBorder.LEFT, TitledBorder.TOP, null, new Color(0, 0, 0)));
+		panelForTable.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
+		panelForTable.setLayout(new BorderLayout(0, 0));
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
+		rdTotalSale.setSelected(true);
+		scrollPane.setViewportView(table);
+		pnForResult.setBorder(new EmptyBorder(0, 20, 2, 20));
+		pnForResult.setLayout(new BorderLayout(0, 0));
+		lblResult.setFont(new Font("굴림", Font.PLAIN, 11));
+		lblResult.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtResult.setFont(new Font("굴림", Font.BOLD, 11));
+		txtResult.setHorizontalAlignment(SwingConstants.RIGHT);
+		txtResult.setEditable(false);
+		txtResult.setColumns(10);
+
+
+		/* 컴퍼넌트 삽입 */
+		add(pnForControl, BorderLayout.NORTH);
+		pnForControl.add(title, BorderLayout.NORTH);
+		pnForControl.add(subPnForControl, BorderLayout.CENTER);
+		subPnForControl.add(rdTotalSale);
+		subPnForControl.add(rdTradeDetail);
+		add(panelForTable, BorderLayout.CENTER);
+		panelForTable.add(scrollPane, BorderLayout.CENTER);
+		add(pnForResult, BorderLayout.SOUTH);
+		pnForResult.add(lblResult, BorderLayout.CENTER);
+		pnForResult.add(txtResult, BorderLayout.EAST);
+
+		/* 라디오버튼 이벤트처리 */
 		rdTotalSale.addActionListener(this);
 		rdTradeDetail.addActionListener(this);
 
-		panelForTable = new JPanel();
-		panelForTable.setBorder(new SoftBevelBorder(BevelBorder.LOWERED, null, null, null, null));
-		add(panelForTable, BorderLayout.CENTER);
-		panelForTable.setLayout(new BorderLayout(0, 0));
-		table = new JTable();
-
-		scrollPane = new JScrollPane();
-		panelForTable.add(scrollPane, BorderLayout.CENTER);
-
-		rdTotalSale.setSelected(true);
+		/* 테이블 데이터 삽입 */
 		showSoftwareSaleList();
-		scrollPane.setViewportView(table);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
-		
-		panel_2 = new JPanel();
-		panel_2.setBorder(new EmptyBorder(0, 20, 2, 20));
-		add(panel_2, BorderLayout.SOUTH);
-		panel_2.setLayout(new BorderLayout(0, 0));
-		
-		lblNewLabel = new JLabel("\uD569 \uACC4 : ");
-		lblNewLabel.setHorizontalAlignment(SwingConstants.RIGHT);
-		panel_2.add(lblNewLabel, BorderLayout.CENTER);
-		
-		textField = new JTextField();
-		panel_2.add(textField, BorderLayout.EAST);
-		textField.setColumns(10);
+
 	}
+
 
 	public void actionPerformed(ActionEvent e) {
 
@@ -116,19 +124,21 @@ public class SaleStateReport extends JPanel implements ActionListener {
 		} else if (e.getSource() == rdTotalSale) {
 			showSoftwareSaleList();
 		}
-		scrollPane.setViewportView(table);
-		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		table.setAutoResizeMode(JTable.AUTO_RESIZE_ALL_COLUMNS);
 	}
 
 	private void showSoftwareSaleList() {
+		
 		List<Sale> reportlist = SaleService.getInstance().selectAllSortDate();
+		
 		String[] COL_NAMES = { "주문일자", "분류", "품목명", "주문번호", "주문수량", "판매금액" };
-		String[][] data = new String[reportlist.size() + 2][COL_NAMES.length];
+		String[][] data = new String[reportlist.size()][COL_NAMES.length];
+		
 		int idx = 0;
 		int total = 0;
+		
 		String beforeDate = "";
 		SimpleDateFormat format = new SimpleDateFormat("yyyy년MM월dd");
+		
 		for (Sale c : reportlist) {
 
 			String date = format.format(c.getDate());
@@ -138,45 +148,40 @@ public class SaleStateReport extends JPanel implements ActionListener {
 				data[idx][0] = date;
 				beforeDate = date;
 			}
-			
 			data[idx][1] = c.getCategory();
 			data[idx][2] = c.getTitle();
 			data[idx][3] = c.getNo() + "";
 			data[idx][4] = String.format("%,d", c.getOrderCount());
-			System.out.println(c.getOrderCount() * c.getSellPrice());
-			data[idx][5] = String.format("%,d", (c.getOrderCount() * c.getSellPrice()));
+			data[idx][5] = String.format("%,d", (c.getOrderCount() * c.getSellPrice())) + " 원";
 			total += c.getOrderCount() * c.getSellPrice();
 			idx++;
 		}
-		idx++;
-		data[idx][0] = new String("총 합 계");
-		data[idx][5] = String.format("%,d", total);
+
+		lblResult.setText("판매금액 합계 : ");
+		txtResult.setText(String.format("%,d", total) + " 원");
 
 		mft = new ModelForTable(data, COL_NAMES);
 		table.setModel(mft);
 
 		mft.tableCellAlignment(table, SwingConstants.CENTER, 0, 1, 2, 3, 4);
 		mft.tableCellAlignment(table, SwingConstants.RIGHT, 5);
-		mft.resizeColumnWidth(table);
-		mft.tableHeaderAlignment(table);
-		table.setFont(table.getFont().deriveFont(11.0f));
-		table.getTableHeader().setReorderingAllowed(false);
-		
+
+		handleTableDesign();
 	}
 
 	private void showTradeDetailList() {
-		
+
 		List<Sale> reportlist = SaleService.getInstance().selectAllSortSupplier();
-		
+
 		String[] COL_NAMES = { "공급회사명", "주문일자", "고객상호", "품명", "수량", "단가", "금액", "세금", "총납품금액" };
-		String[][] data = new String[reportlist.size() + 2][COL_NAMES.length];
-		
+		String[][] data = new String[reportlist.size()][COL_NAMES.length];
+
 		int idx = 0;
 		int total = 0;
-		
+
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		String beforeConame = "";
-		
+
 		for (Sale c : reportlist) {
 			int orderCnt = c.getOrderCount();
 			int supPrice = c.getSupPrice();
@@ -194,28 +199,30 @@ public class SaleStateReport extends JPanel implements ActionListener {
 			data[idx][2] = c.getShopName();
 			data[idx][3] = c.getTitle();
 			data[idx][4] = String.format("%,d", orderCnt);
-			data[idx][5] = String.format("%,d", supPrice);
-			data[idx][6] = String.format("%,d", (cost));
-			data[idx][7] = String.format("%,d", (tax));
-			data[idx][8] = String.format("%,d", (cost + tax));
+			data[idx][5] = String.format("%,d", supPrice) + " 원";
+			data[idx][6] = String.format("%,d", (cost)) + " 원";
+			data[idx][7] = String.format("%,d", (tax)) + " 원";
+			data[idx][8] = String.format("%,d", (cost + tax)) + " 원";
 			total += cost + tax;
 			idx++;
 		}
-		idx++;
-		data[idx][6] = new String("총 납품금액");
-		data[idx][7] = new String(" 합계 :");
 
-		data[idx][8] = String.format("%,d", total);
+		lblResult.setText("총 납품금액  합계 : ");
+		txtResult.setText(String.format("%,d", total) + " 원");
 
 		ModelForTable mft = new ModelForTable(data, COL_NAMES);
 		table.setModel(mft);
 
 		mft.tableCellAlignment(table, SwingConstants.CENTER, 0, 1, 2, 3, 4);
 		mft.tableCellAlignment(table, SwingConstants.RIGHT, 5, 6, 7, 8);
+
+		handleTableDesign();
+	}
+
+	private void handleTableDesign() {
 		mft.resizeColumnWidth(table);
 		mft.tableHeaderAlignment(table);
 		table.setFont(table.getFont().deriveFont(11.0f));
 		table.getTableHeader().setReorderingAllowed(false);
-
 	}
 }

@@ -221,13 +221,13 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 			setSize(740, 394);
 		} else if (e.getSource() == subMenuBtns[4]) {
 			mainPanel.add(new SaleStateBySoftware(), BorderLayout.CENTER);
-			setSize(740, 394);
+			setSize(800, 394);
 		} else if (e.getSource() == subMenuBtns[5]) {
 			mainPanel.add(new SaleStateByDate(), BorderLayout.CENTER);
 			setSize(680, 394);
 		} else if (e.getSource() == subMenuBtns[6]) {
 			mainPanel.add(new SaleStateReport(), BorderLayout.CENTER);
-			setSize(900, 394);
+			setSize(950, 394);
 		} else if (e.getSource() == subMenuBtns[7]) {
 			mainPanel.add(new OrderStateGraph(), BorderLayout.CENTER);
 			setBounds(getX(), 150, 700, 845);

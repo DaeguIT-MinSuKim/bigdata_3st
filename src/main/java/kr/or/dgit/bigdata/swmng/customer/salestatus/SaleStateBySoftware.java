@@ -24,6 +24,7 @@ import kr.or.dgit.bigdata.swmng.dto.Software;
 import kr.or.dgit.bigdata.swmng.service.SaleService;
 import kr.or.dgit.bigdata.swmng.service.SoftwareService;
 import kr.or.dgit.bigdata.swmng.util.ModelForTable;
+import java.awt.FlowLayout;
 
 public class SaleStateBySoftware extends JPanel {
 	private ModelForTable mft;
@@ -49,6 +50,7 @@ public class SaleStateBySoftware extends JPanel {
 	 * Create the panel.
 	 */
 	public SaleStateBySoftware() {
+		
 		pnForControl = new JPanel();
 		subPnForControl = new JPanel();
 		JLabel lblTitle = new JLabel("S/W 판매현황 조회");
@@ -83,7 +85,6 @@ public class SaleStateBySoftware extends JPanel {
 		subPnForControl.setBorder(new LineBorder(Color.DARK_GRAY));
 		pnForTable.setLayout(new BorderLayout(0, 0));
 		pnForResult.setBorder(new EmptyBorder(2, 10, 2, 10));
-		pnForResult.setLayout(new GridLayout(1, 1, 0, 0));
 
 		lblTitle.setFont(new Font("맑은 고딕", Font.PLAIN, 15));
 		lblTitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -108,6 +109,7 @@ public class SaleStateBySoftware extends JPanel {
 		pnForTable.add(scrollPane, BorderLayout.CENTER);
 
 		add(pnForResult, BorderLayout.SOUTH);
+		pnForResult.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		pnForResult.add(lblLeft);
 		pnForResult.add(txtLeft);
 		pnForResult.add(lblCenter);
@@ -184,7 +186,7 @@ public class SaleStateBySoftware extends JPanel {
 			if (temp[i] == 0) {
 				rArr[i] = "-";
 			} else {
-				rArr[i]= String.format("%,d", temp[i]) + "원";
+				rArr[i]= String.format("%,d", temp[i]) + " 원";
 			}
 		}
 		return rArr;
@@ -218,9 +220,9 @@ public class SaleStateBySoftware extends JPanel {
 		data[idx][0] = s.getTitle();
 		data[idx][1] = s.getCategory();
 		data[idx][2] = s.getCoName();
-		data[idx][3] = String.format("%,d", s.getSupAmount()) + "원";
-		data[idx][4] = String.format("%,d", s.getSaleAmount()) + "원";
-		data[idx][5] = String.format("%,d", s.getSaleProfits()) + "원";
+		data[idx][3] = String.format("%,d", s.getSupAmount()) + " 원";
+		data[idx][4] = String.format("%,d", s.getSaleAmount()) + " 원";
+		data[idx][5] = String.format("%,d", s.getSaleProfits()) + " 원";
 		return data;
 	}
 
