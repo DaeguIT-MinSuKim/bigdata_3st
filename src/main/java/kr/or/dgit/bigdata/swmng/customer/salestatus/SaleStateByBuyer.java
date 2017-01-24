@@ -195,9 +195,9 @@ public class SaleStateByBuyer extends JPanel {
 			comboBox.setEnabled(UNCHECK); // 콤보박스 사용불가
 			checkBox.setSelected(true); // 체크박스 체크
 
-			list = SaleService.getInstance().selectBuyerStateSales(); // 고객별
-																		// 판매현황
-																		// 모두 출력
+			list = SaleService.getInstance().selectBuyerStateSales(); // 고객별 판매현황 모두 출력
+																		 
+																		 
 		}
 		return list;
 	}
