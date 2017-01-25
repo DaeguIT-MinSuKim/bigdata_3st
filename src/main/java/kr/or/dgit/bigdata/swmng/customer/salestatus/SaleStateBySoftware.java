@@ -132,6 +132,7 @@ public class SaleStateBySoftware extends JPanel {
 		});
 
 		setComList();
+		checkBox.setSelected(true);
 		scrollPane.setViewportView(table);
 		createList();
 	}

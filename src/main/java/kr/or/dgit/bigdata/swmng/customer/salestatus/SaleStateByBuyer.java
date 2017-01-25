@@ -117,10 +117,11 @@ public class SaleStateByBuyer extends JPanel {
 		});
 
 		setComList();
-
+		checkBox.setSelected(true);
 		createList();
-
+		
 		scrollPane.setViewportView(table);
+		
 	}
 
 	// 콤보박스 아이템
