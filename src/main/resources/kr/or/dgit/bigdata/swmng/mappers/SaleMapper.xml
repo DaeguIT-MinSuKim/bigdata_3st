@@ -72,7 +72,7 @@
 		sum(orderCount*sellPrice) saleAmount,
 		sum((orderCount*sellPrice)-(orderCount*supPrice)) saleProfits
 		from sale
-		group by coName
+		group by title
 		ORDER BY category
 	</select>
 
@@ -86,7 +86,7 @@
 		sum((orderCount*sellPrice)-(orderCount*supPrice)) saleProfits
 		from sale
 		where title = #{title}
-		group by coName
+		group by title
 		ORDER BY category
 	</select>
 

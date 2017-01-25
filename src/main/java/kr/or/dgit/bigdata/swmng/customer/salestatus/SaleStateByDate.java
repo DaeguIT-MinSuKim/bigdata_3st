@@ -184,7 +184,7 @@ public class SaleStateByDate extends JPanel implements ActionListener {
 		for (int i = 0; i < strDate.length; i++) {
 			numDateArr[i] = Integer.parseInt(strDate[i]);
 		}
-		GregorianCalendar time = new GregorianCalendar(numDateArr[0], numDateArr[1], numDateArr[2]);
+		GregorianCalendar time = new GregorianCalendar(numDateArr[0], numDateArr[1]-1, numDateArr[2]);
 		return time.getTime();
 	}
 

@@ -228,7 +228,7 @@ public class Main extends JFrame implements ActionListener, MouseListener {
 			setSize(680, 394);
 		} else if (e.getSource() == subMenuBtns[6]) {
 			mainPanel.add(new SaleStateReport(), BorderLayout.CENTER);
-			setSize(850, 394);
+			setSize(860, 394);
 		} else if (e.getSource() == subMenuBtns[7]) {
 			mainPanel.add(new OrderStateGraph(), BorderLayout.CENTER);
 			Dimension screen =Toolkit.getDefaultToolkit().getScreenSize(); // 모니터화면의 해상도 얻기
