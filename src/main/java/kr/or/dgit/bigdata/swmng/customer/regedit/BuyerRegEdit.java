@@ -131,7 +131,7 @@ public class BuyerRegEdit extends JPanel implements ActionListener, RegEditInter
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ZipcodeSearch("Buyer").setVisible(true);
+				new ZipcodeSearch("Buyer");
 		
 			}
 		});
