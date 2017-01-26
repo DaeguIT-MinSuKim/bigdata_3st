@@ -1,18 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<!-- DAO인터페이스 연결 -->
+
 <mapper namespace="kr.or.dgit.bigdata.swmng.mappers.BuyerMapper">
 
-	<resultMap type="Buyer" id="buyerResult">
-		<id property="no" column="no" />
-		<result property="shopName" column="shopName" />
-		<result property="address" column="address" />
-		<result property="tel" column="tel" />
-		<result property="picPath" column="picPath" />
-	</resultMap>
-
-	<!-- 쿼리문을 연결할 변수(ID)생성후 DTO(ID)와 연결 -->
 	<select id="selectAll" resultType="Buyer">
 		SELECT
 		no,shopName,address,tel,picPath

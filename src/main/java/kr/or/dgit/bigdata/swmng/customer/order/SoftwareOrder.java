@@ -39,13 +39,13 @@ import kr.or.dgit.bigdata.swmng.util.DateFomatter;
 @SuppressWarnings("serial")
 public class SoftwareOrder extends JPanel {
 	private JTextField tfNo;
-	private JTextField tfcount;
-	private JLabel lblcoName;
-	private JComboBox cbcoName;
-	private JComboBox cbtitle;
-	private JCheckBox chchck;
-	private List<Buyer> list;
-	private List<Software> list2;
+	private JTextField tfCount;
+	private JLabel lblCoName;
+	private JComboBox cbCoName;
+	private JComboBox cbTitle;
+	private JCheckBox paymentCheck;
+	private List<Buyer> buyerList;
+	private List<Software> softwareList;
 	private JDatePickerImpl datePicker1;
 	private UtilDateModel model;
 	private JLabel lblTitlePic;
@@ -53,6 +53,7 @@ public class SoftwareOrder extends JPanel {
 	private Date today;
 
 	public SoftwareOrder() {
+		// 데이트피커 사용위한 생성
 		model = new UtilDateModel();
 		today = new Date();
 		model.setValue(today);
@@ -93,7 +94,7 @@ public class SoftwareOrder extends JPanel {
 
 		tfNo = new JTextField();
 		tfNo.setEnabled(false);
-		
+
 		GridBagConstraints gbc_tfNo = new GridBagConstraints();
 		gbc_tfNo.fill = GridBagConstraints.BOTH;
 		gbc_tfNo.insets = new Insets(0, 0, 5, 5);
@@ -102,23 +103,23 @@ public class SoftwareOrder extends JPanel {
 		mainpanel.add(tfNo, gbc_tfNo);
 		tfNo.setColumns(10);
 
-		lblcoName = new JLabel("고객상호명");
-		lblcoName.setHorizontalAlignment(SwingConstants.CENTER);
+		lblCoName = new JLabel("고객상호명");
+		lblCoName.setHorizontalAlignment(SwingConstants.CENTER);
 		GridBagConstraints gbc_lblcoName = new GridBagConstraints();
 		gbc_lblcoName.anchor = GridBagConstraints.EAST;
 		gbc_lblcoName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblcoName.gridx = 1;
 		gbc_lblcoName.gridy = 2;
-		mainpanel.add(lblcoName, gbc_lblcoName);
+		mainpanel.add(lblCoName, gbc_lblcoName);
 
-		cbcoName = new JComboBox<>();
+		cbCoName = new JComboBox<>();
 		GridBagConstraints gbc_cbcoName = new GridBagConstraints();
 		gbc_cbcoName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cbcoName.gridwidth = 2;
 		gbc_cbcoName.insets = new Insets(0, 0, 5, 5);
 		gbc_cbcoName.gridx = 2;
 		gbc_cbcoName.gridy = 2;
-		mainpanel.add(cbcoName, gbc_cbcoName);
+		mainpanel.add(cbCoName, gbc_cbcoName);
 
 		JLabel lbltitle = new JLabel("품목명");
 		lbltitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -129,10 +130,10 @@ public class SoftwareOrder extends JPanel {
 		gbc_lbltitle.gridy = 3;
 		mainpanel.add(lbltitle, gbc_lbltitle);
 
-		cbtitle = new JComboBox<>();
-
-		cbtitle.addActionListener(new ActionListener() {
+		cbTitle = new JComboBox<>();
+		cbTitle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// 제품이미지 표시
 				setTitleImg();
 			}
 		});
@@ -142,7 +143,7 @@ public class SoftwareOrder extends JPanel {
 		gbc_cbtitle.insets = new Insets(0, 0, 5, 5);
 		gbc_cbtitle.gridx = 2;
 		gbc_cbtitle.gridy = 3;
-		mainpanel.add(cbtitle, gbc_cbtitle);
+		mainpanel.add(cbTitle, gbc_cbtitle);
 
 		JLabel lblcount = new JLabel("주문수량");
 		lblcount.setHorizontalAlignment(SwingConstants.CENTER);
@@ -153,14 +154,14 @@ public class SoftwareOrder extends JPanel {
 		gbc_lblcount.gridy = 4;
 		mainpanel.add(lblcount, gbc_lblcount);
 
-		tfcount = new JTextField();
+		tfCount = new JTextField();
 		GridBagConstraints gbc_tfcount = new GridBagConstraints();
 		gbc_tfcount.fill = GridBagConstraints.HORIZONTAL;
 		gbc_tfcount.insets = new Insets(0, 0, 5, 5);
 		gbc_tfcount.gridx = 2;
 		gbc_tfcount.gridy = 4;
-		mainpanel.add(tfcount, gbc_tfcount);
-		tfcount.setColumns(10);
+		mainpanel.add(tfCount, gbc_tfcount);
+		tfCount.setColumns(10);
 
 		JLabel lblchck = new JLabel("입금여부");
 		lblchck.setHorizontalAlignment(SwingConstants.CENTER);
@@ -179,16 +180,17 @@ public class SoftwareOrder extends JPanel {
 		gbc_paypanel.gridy = 5;
 		mainpanel.add(paypanel, gbc_paypanel);
 
-		chchck = new JCheckBox();
-		chchck.setText("미입금");
-		chchck.addActionListener(new ActionListener() {
+		paymentCheck = new JCheckBox();
+		paymentCheck.setText("미입금");
+		paymentCheck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				// 체크박스 체크여부에 따라
 				payCheck();
 			}
 		});
 		paypanel.setLayout(new GridLayout(0, 2, 0, 0));
-		paypanel.add(chchck);
-		chchck.setHorizontalAlignment(SwingConstants.LEFT);
+		paypanel.add(paymentCheck);
+		paymentCheck.setHorizontalAlignment(SwingConstants.LEFT);
 
 		JLabel lbldate = new JLabel("주문날짜");
 		lbldate.setHorizontalAlignment(SwingConstants.CENTER);
@@ -240,15 +242,15 @@ public class SoftwareOrder extends JPanel {
 		gbl_btnpanel.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		btnpanel.setLayout(gbl_btnpanel);
 
-		JButton btnreset = new JButton("취소");
-		btnreset.addActionListener(new ActionListener() {
+		JButton btnReset = new JButton("취소");
+		btnReset.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				refresh();
 			}
 		});
 
-		JButton btnadd = new JButton("등록");
-		btnadd.addActionListener(new ActionListener() {
+		JButton btnAdd = new JButton("등록");
+		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				addCheck();
 			}
@@ -259,104 +261,96 @@ public class SoftwareOrder extends JPanel {
 		gbc_btnadd.insets = new Insets(0, 0, 0, 5);
 		gbc_btnadd.gridx = 0;
 		gbc_btnadd.gridy = 0;
-		btnpanel.add(btnadd, gbc_btnadd);
+		btnpanel.add(btnAdd, gbc_btnadd);
 		GridBagConstraints gbc_btnreset = new GridBagConstraints();
 		gbc_btnreset.anchor = GridBagConstraints.WEST;
 		gbc_btnreset.fill = GridBagConstraints.VERTICAL;
 		gbc_btnreset.gridx = 1;
 		gbc_btnreset.gridy = 0;
-		btnpanel.add(btnreset, gbc_btnreset);
+		btnpanel.add(btnReset, gbc_btnreset);
 		setComList();
 		refresh();
 	}
 
 	// 콤보박스 리스트
 	private void setComList() {
-		list = BuyerService.getInstance().selectShopName();
-		for (Buyer b : list) {
-			cbcoName.addItem(b.getShopName());
+		buyerList = BuyerService.getInstance().selectShopName();
+		for (Buyer b : buyerList) {
+			cbCoName.addItem(b.getShopName());
 		}
-		list2 = SoftwareService.getInstance().selectAll();
-		for (Software s : list2) {
-			cbtitle.addItem(s.getTitle());
+		softwareList = SoftwareService.getInstance().selectAll();
+		for (Software s : softwareList) {
+			cbTitle.addItem(s.getTitle());
 		}
 	}
 
 	private void setTitleImg() {
-		String title = cbtitle.getSelectedItem() + "";
-		Software s = SoftwareService.getInstance().selectSWBytitle(title);
 		try {
-			TitlePic.setIcon(new ImageIcon(
-					new ImageIcon(s.getPicPath()).getImage().getScaledInstance(160, 140, java.awt.Image.SCALE_SMOOTH)));
+			// 제품명 콤보박스 선택한 값으로 DB에서 해당하는 컬럼 검색
+			// 검색후 해당 제품 이미지 가져와 미리보기 생성
+			TitlePic.setIcon(new ImageIcon(new ImageIcon(
+					SoftwareService.getInstance().selectSWBytitle(cbTitle.getSelectedItem() + "").getPicPath())
+							.getImage().getScaledInstance(160, 140, java.awt.Image.SCALE_SMOOTH)));
 		} catch (NullPointerException e) {
+			// 이미지 없을시 표시 안함
 			TitlePic.setIcon(null);
 		}
 	}
 
 	// 입금여부확인
 	private void payCheck() {
-		if (chchck.isSelected()) {
-			chchck.setText("입금   ");
+		if (paymentCheck.isSelected()) {
+			paymentCheck.setText("입금   ");
 		} else {
-			chchck.setText("미입금");
+			paymentCheck.setText("미입금");
 		}
 	}
 
 	// 등록확인
 	private void addCheck() {
-		
-		if (tfcount.getText().trim().equals("")) {
+
+		if (tfCount.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "주문수량을 입력해주세요");
-			
-		} else if (tfcount.getText().trim().matches("[0]{1,9}")) {
+
+		} else if (tfCount.getText().trim().matches("[0]{1,9}")) {
 			JOptionPane.showMessageDialog(null, "다시 입력하세요.");
-			
-		} else if (!tfcount.getText().trim().matches("^[0-9]{1,9}$")) {
-			
-			if (tfcount.getText().trim().matches("[0-9]{10,30}")) {
+
+		} else if (!tfCount.getText().trim().matches("^[0-9]{1,9}$")) {
+
+			if (tfCount.getText().trim().matches("[0-9]{10,30}")) {
 				JOptionPane.showMessageDialog(null, "주문가능수량을 초과하였습니다");
 			} else {
 				JOptionPane.showMessageDialog(null, "주문수량은 정수만입력가능합니다");
 			}
-			
+
 		} else {
 			JOptionPane.showMessageDialog(null, "등록완료");
-			add();
+			orderSoftware();
 		}
 		refresh();
 	}
 
-	void add() {
+	// 소프트웨어 주문
+	private void orderSoftware() {
+		// 날짜 배열로 가져와 스플릿
 		String[] strDate = datePicker1.getJFormattedTextField().getText().split("/");
 		int[] numDateArr = new int[3];
 		for (int i = 0; i < strDate.length; i++) {
 			numDateArr[i] = Integer.parseInt(strDate[i]);
 		}
 		GregorianCalendar time = new GregorianCalendar(numDateArr[0], numDateArr[1] - 1, numDateArr[2]);
-
-		int no = Integer.parseInt(tfNo.getText());
-		String shopName = cbcoName.getSelectedItem() + "";
-		String title = cbtitle.getSelectedItem() + "";
-		int orderCount = Integer.parseInt(tfcount.getText());
-		boolean payment;
-		if (chchck.isSelected()) {
-			payment = true;
-		} else {
-			payment = false;
-		}
-
-		Date date = time.getTime();
-		Sale s = new Sale(no, shopName, title, orderCount, payment, date);
-		SaleService.getInstance().insertItem(s);
-
+		SaleService.getInstance()
+				.insertItem(new Sale(Integer.parseInt(tfNo.getText()), cbCoName.getSelectedItem() + "",
+						cbTitle.getSelectedItem() + "", Integer.parseInt(tfCount.getText()), paymentCheck.isSelected(),
+						time.getTime()));
 	}
 
 	private void refresh() {
 		tfNo.setText(SaleService.getInstance().selectMaxNo().getNo() + "");
-		cbcoName.setSelectedIndex(0);
-		cbtitle.setSelectedIndex(0);
-		tfcount.setText("");
-		chchck.setSelected(false);
+		cbCoName.setSelectedIndex(0);
+		cbTitle.setSelectedIndex(0);
+		tfCount.setText("");
+		paymentCheck.setSelected(false);
 		model.setValue(today);
 	}
 }

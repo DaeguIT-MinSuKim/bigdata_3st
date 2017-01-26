@@ -90,8 +90,6 @@
 		ORDER BY category
 	</select>
 
-
-	<!-- 경아꺼 -->
 	<insert id="insertItem" parameterType="Sale">
 		insert into
 		sale(no,shopName,title,orderCount,payment,date,supPrice,sellPrice,coName,category)

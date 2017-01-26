@@ -85,6 +85,7 @@ public class LoginForm extends JLayeredPane implements ActionListener {
 		});
 
 		try {
+			// 로그인 화면 이미지
 			img = ImageIO.read(getClass().getResource("/img/login.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -103,10 +104,11 @@ public class LoginForm extends JLayeredPane implements ActionListener {
 
 		JLabel secret = new JLabel();
 		add(secret);
-		
+
 		secret.setBounds(265, 320, 80, 20);
 		secret.setCursor(new Cursor(Cursor.CROSSHAIR_CURSOR));
 		secret.addMouseListener(new MouseAdapter() {
+			// 시크릿 로그인. 개발시 필요해서..
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				Main mainFrame = (Main) getTopLevelAncestor();
@@ -115,15 +117,15 @@ public class LoginForm extends JLayeredPane implements ActionListener {
 				setMemberId("admin");
 				removeAll();
 				setLayout(new BorderLayout());
-				add(new LoggedIn(), BorderLayout.CENTER);
+				add(new LoginInfo(), BorderLayout.CENTER);
 				getTopLevelAncestor().setSize(500, 394);
 				revalidate();
 				repaint();
 			}
 
 		});
-		// 텍스트필드, 버튼 설정
 
+		// 텍스트필드, 버튼 설정
 		tfId.setOpaque(false);
 		tfId.setBorder(BorderFactory.createEmptyBorder());
 		tfId.setBackground(new Color(255, 255, 255, 0));
@@ -158,6 +160,7 @@ public class LoginForm extends JLayeredPane implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnLogin) {
+			// 아이디 비번 빈칸여부 확인후 로그인
 			if (tfId.getText().trim().equals("") || tfPw.getText().equals("")) {
 				JOptionPane.showMessageDialog(null, "빈칸없이 입력해 주세요");
 			} else {
@@ -179,7 +182,7 @@ public class LoginForm extends JLayeredPane implements ActionListener {
 			setMemberId(tfId.getText());
 			removeAll();
 			setLayout(new BorderLayout());
-			add(new LoggedIn(), BorderLayout.CENTER);
+			add(new LoginInfo(), BorderLayout.CENTER);
 			getTopLevelAncestor().setSize(500, 394);
 			revalidate();
 			repaint();
@@ -198,6 +201,8 @@ public class LoginForm extends JLayeredPane implements ActionListener {
 
 	private void loginAction() {
 		List<Member> list = MemberService.getInstance().selecyByID(tfId.getText().trim());
+		// 로그인클릭시 입력한 아이디를 가져와 DB에서 비교
+		// 아이디와 비밀번호 일치여부 확인후 로그인 진행
 		for (Member m : list) {
 			if (m.getId().equals(tfId.getText().trim())) {
 				idValidation = true;
@@ -206,6 +211,7 @@ public class LoginForm extends JLayeredPane implements ActionListener {
 				pwValidation = true;
 			}
 		}
+		// 로그인후 네비메뉴 생성
 		if (idValidation && pwValidation) {
 			Main mainFrame = (Main) getTopLevelAncestor();
 			mainFrame.getSidePanel().setVisible(true);

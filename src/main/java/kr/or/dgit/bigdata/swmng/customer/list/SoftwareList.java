@@ -91,12 +91,14 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 			btnPanel.setVisible(false);
 		}
 
+		// 리스트 생성
 		createList();
 
 	}
 
 	@Override
 	public void refresh(JPanel p) {
+		// 페이지 새로고침을 위한 인터페이스 오버라이드
 		removeAll();
 		add(p);
 		revalidate();
@@ -104,21 +106,10 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 
 	}
 
-	@Override
-	public void deleteAction(int no) {
-		if (JOptionPane.showConfirmDialog(null, "선택한 항목을 삭제하시겠습니까?") == 0) {
-			SoftwareService.getInstance().deleteItem(no);
-			JOptionPane.showMessageDialog(null, "삭제가 완료되었습니다");
-			refresh(new SoftwareList());
-		} else {
-			JOptionPane.showMessageDialog(null, "취소하였습니다");
-		}
 
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-
 		switch (e.getActionCommand()) {
 		case "등록":
 			// 등록버튼 클릭시 등록화면 호출
@@ -140,10 +131,24 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 			if (softwareList.getSelectedRow() == -1) {
 				JOptionPane.showMessageDialog(null, "삭제 할 항목을 선택해주세요");
 			} else {
+				//리스트에서 선택한 항목의 첫번째 컬럼의 value 값(소프트웨어 번호)를 넘겨줌
 				deleteAction(Integer.parseInt(softwareList.getValueAt(softwareList.getSelectedRow(), 0) + ""));
 			}
 			break;
 		}
+	}
+	
+	@Override
+	public void deleteAction(int no) {
+		// 선택한 컬럼의 소프트웨어의 DB순번을 받아와 삭제
+		if (JOptionPane.showConfirmDialog(null, "선택한 항목을 삭제하시겠습니까?") == 0) {
+			SoftwareService.getInstance().deleteItem(no);
+			JOptionPane.showMessageDialog(null, "삭제가 완료되었습니다");
+			refresh(new SoftwareList());
+		} else {
+			JOptionPane.showMessageDialog(null, "취소하였습니다");
+		}
+
 	}
 
 	@Override
@@ -175,6 +180,7 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 		// 리스트별 내용에 따른 cell클래스 지정
 		softwareList = new JTable(mft) {
 			public Class getColumnClass(int column) {
+				// 이미지 컬럼인 6번째 cell을 이미지아이콘으로 렌더링
 				if (column == 6) {
 					return ImageIcon.class;
 				}
@@ -182,17 +188,16 @@ public class SoftwareList extends JPanel implements ActionListener, ListInterfac
 			}
 		};
 
+		//리스트 세부설정
 		mft.resizeColumnHeight(softwareList);
 		mft.resizeColumnWidth(softwareList);
 		mft.tableHeaderAlignment(softwareList);
 		mft.tableCellAlignment(softwareList, SwingConstants.CENTER, 0, 1, 2, 5);
 		mft.tableCellAlignment(softwareList, SwingConstants.RIGHT, 3, 4);
-
 		softwareList.setModel(mft);
 		softwareList.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		softwareList.setFont(softwareList.getFont().deriveFont(12.0f));
 		softwareList.getTableHeader().setReorderingAllowed(false);
-
 		listPanel.add(new JScrollPane(softwareList));
 	}
 

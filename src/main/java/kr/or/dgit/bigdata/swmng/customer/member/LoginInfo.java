@@ -24,7 +24,7 @@ import kr.or.dgit.bigdata.swmng.dto.Member;
 import kr.or.dgit.bigdata.swmng.service.MemberService;
 import kr.or.dgit.bigdata.swmng.util.CreateDatabaseAuto;
 
-public class LoggedIn extends JLayeredPane implements ActionListener {
+public class LoginInfo extends JLayeredPane implements ActionListener {
 	private JLabel welcomeMsg;
 	private JLabel memberPic;
 	private BufferedImage img = null;
@@ -40,10 +40,10 @@ public class LoggedIn extends JLayeredPane implements ActionListener {
 	}
 
 	public static void setAdminThread(Thread adminThread) {
-		LoggedIn.adminThread = adminThread;
+		LoginInfo.adminThread = adminThread;
 	}
 
-	public LoggedIn() {
+	public LoginInfo() {
 		setLayout(null);
 		memberPic = new JLabel();
 		welcomeMsg = new JLabel();
@@ -64,19 +64,23 @@ public class LoggedIn extends JLayeredPane implements ActionListener {
 			e1.printStackTrace();
 		}
 
+		// 로그인 환영생성
 		createWelcome();
+		// 관리자로그인시
 		if (id.equals("admin")) {
+			// 관리자 메뉴 생성
 			creataeAdminMenu();
-
+			// 자동백업위한 쓰레드 생성
 			adminThread = new Thread() {
 				@Override
 				public void run() {
 					int i = 300000;
 					int count = 1;
-
 					while (flag == true) {
 						try {
+							// 300초 동안 쓰레드 슬립
 							adminThread.sleep(i);
+							// 데이터베이스 백업
 							new CreateDatabaseAuto().backupFromDB();
 							JOptionPane.showMessageDialog(null, count + " 번째 자동백업이 되었습니다(" + i / 1000 + "초 주기)");
 							count++;
@@ -86,7 +90,9 @@ public class LoggedIn extends JLayeredPane implements ActionListener {
 					}
 				}
 			};
+			// 쓰레드를 데몬쓰레드로 설정
 			adminThread.setDaemon(true);
+			// 쓰레드 시작
 			adminThread.start();
 		}
 
@@ -130,11 +136,15 @@ public class LoggedIn extends JLayeredPane implements ActionListener {
 	private void createWelcome() {
 
 		List<Member> list = MemberService.getInstance().selecyByID(id);
+		// 로그인한 아이디를 가져와 DB비교
 		for (Member m : list) {
 			if (m.getPic() == null) {
+				// 이미지 없을시 기본Default이미지 표시
 				memberPic.setIcon(new ImageIcon(new ImageIcon(getClass().getResource("/img/default.png")).getImage()
 						.getScaledInstance(memberPic.getWidth(), memberPic.getHeight(), Image.SCALE_SMOOTH)));
 			} else {
+				// 이미지 있을시 해당 이미지 표시
+				// 데이터베이스 이미지파일을 바이트로 변환후 이미지 추출 후 아이콘으로 셋팅
 				memberPic.setIcon(new ImageIcon(new ImageIcon((byte[]) m.getPic()).getImage()
 						.getScaledInstance(memberPic.getWidth(), memberPic.getHeight(), java.awt.Image.SCALE_SMOOTH)));
 			}

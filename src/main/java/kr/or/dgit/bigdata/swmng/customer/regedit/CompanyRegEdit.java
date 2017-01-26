@@ -113,34 +113,8 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 		gbc_tfTel.gridx = 2;
 		gbc_tfTel.gridy = 4;
 		AddPanel.add(tfTel, gbc_tfTel);
-		tfTel.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyPressed(KeyEvent e) {
-				String tel = tfTel.getText().trim();
-				if (tel.length() > 13) {
-					JOptionPane.showMessageDialog(null, "전화번호는 11자리 이상 입력할수 없습니다");
-					tfTel.setText("");
-					tfTel.requestFocus();
-				} else {
-					if (tel.length() == 3 && !tel.equals("010") || tel.length() == 2 && tel.equals("02")) {
-						tfTel.setText(tel + "-");
-
-					} else if (tel.length() == 3 && tel.equals("010")) {
-						tfTel.setText(tel + "-");
-					}
-					if (tel.length() > 4 && !tel.split("-")[0].equals("010")) {
-						if (tel.split("-")[1].length() == 3 && tel.length() < 8) {
-							tfTel.setText(tel + "-");
-						}
-					} else if (tel.length() > 4 && tel.split("-")[0].equals("010")) {
-						if (tel.split("-")[1].length() == 4 && tel.length() < 9) {
-							tfTel.setText(tel + "-");
-						}
-					}
-				}
-			}
-
-		});
+	
+		
 
 		JLabel lblAddress = new JLabel("주 소 :");
 		GridBagConstraints gbc_lblAddress = new GridBagConstraints();
@@ -171,7 +145,7 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 		btnSearch.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ZipcodeSearch("Company").setVisible(true);
+				new ZipcodeSearch("Company");
 			}
 		});
 
@@ -292,13 +266,13 @@ public class CompanyRegEdit extends JPanel implements ActionListener, RegEditInt
 	public boolean inputValidation() {
 		// !tfTel.getText().matches("[0-9]{2,3}-[0-9]{4}-[0-9]{4}"
 		if (tfNo.getText().equals("") || tfCoName.getText().trim().equals("")
-				|| tfZipcode.getText().trim().equals("")) {
+				|| tfAddress.getText().trim().equals("")) {
 			JOptionPane.showMessageDialog(null, "빈칸없이 입력해 주세요");
 			return false;
-		} else if (!tfTel.getText().matches("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}")) {
+		} /*else if (!tfTel.getText().matches("[0-9]{2,3}-[0-9]{3,4}-[0-9]{4}")) {
 			JOptionPane.showMessageDialog(null, "전화번호를 다시 입력해주세요");
 			return false;
-		}
+		}*/
 		return true;
 	}
 

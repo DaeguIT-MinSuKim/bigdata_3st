@@ -62,15 +62,13 @@ public class ZipcodeSearch extends JFrame implements ActionListener {
 	private JPanel ProgressPanel;
 	private String regPanel = "";
 
-	/**
-	 * Launch the application.
-	 */
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
 					ZipcodeSearch frame = new ZipcodeSearch("");
 					frame.setVisible(true);
+					// 새로운 프레임 , 같은테마 적용
 					UIManager.setLookAndFeel("de.javasoft.plaf.synthetica.SyntheticaAluOxideLookAndFeel");
 					SwingUtilities.updateComponentTreeUI(frame);
 
@@ -81,9 +79,6 @@ public class ZipcodeSearch extends JFrame implements ActionListener {
 		});
 	}
 
-	/**
-	 * Create the frame.
-	 */
 	public ZipcodeSearch(String parent) {
 		regPanel = parent;
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -145,14 +140,17 @@ public class ZipcodeSearch extends JFrame implements ActionListener {
 		tfStreet.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyPressed(KeyEvent e) {
+				// 도로명 검색창 검색글자수 제한
 				if (e.getKeyCode() == KeyEvent.VK_ENTER) {
 					if (tfStreet.getText().length() < 2) {
 						JOptionPane.showMessageDialog(null, "검색어는 2글자 이상으로 해주세요");
 					} else {
+						// 검색시 로딩커서로 변환 및 진행바 보여줌
 						setCursor(new Cursor(Cursor.WAIT_CURSOR));
 						progressBar.setVisible(true);
 						scrollPane.setVisible(false);
 						updateList();
+						// 리스트 생성후 커서 복원
 						setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
 					}
 				}
@@ -209,10 +207,17 @@ public class ZipcodeSearch extends JFrame implements ActionListener {
 		btnPanel.add(btnCancel, gbc_btnCancel);
 
 		List<Post> list = PostService.getInstance().selectCity();
-		for (Post p : list) {
-			cmbCity.addItem(p.getSido());
+		// 지역별 콤보박스 생성
+		if (list.isEmpty()) {
+			JOptionPane.showMessageDialog(null, "우편번호 자료가 없습니다. src폴더내 우편번호.pdf 참조");
+		} else {
+			for (Post p : list) {
+				cmbCity.addItem(p.getSido());
+			}
+			setVisible(true);
 		}
 
+		// 주소 출력위한 쓰레드 생성
 		threadForSearch = new Thread() {
 			@Override
 			public void run() {
@@ -229,6 +234,7 @@ public class ZipcodeSearch extends JFrame implements ActionListener {
 
 	}
 
+	// 주소 재검색시 주소 출력
 	private void updateList() {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
@@ -245,9 +251,9 @@ public class ZipcodeSearch extends JFrame implements ActionListener {
 		});
 	}
 
+	// 주소 리스트 출력
 	private void getAddress() {
 		if (flag == false) {
-
 			String[] COL_NAMES = { "우편번호", "주소" };
 			String[][] data;
 			int idx = 0;
@@ -291,8 +297,8 @@ public class ZipcodeSearch extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == btnSearch) {
-			if (tfStreet.getText().length() < 3) {
-				JOptionPane.showMessageDialog(null, "검색어는 3글자 이상으로 해주세요");
+			if (tfStreet.getText().length() < 2) {
+				JOptionPane.showMessageDialog(null, "검색어는 2글자 이상으로 해주세요");
 			} else {
 				setCursor(new Cursor(Cursor.WAIT_CURSOR));
 				progressBar.setVisible(true);
@@ -308,6 +314,7 @@ public class ZipcodeSearch extends JFrame implements ActionListener {
 		}
 	}
 
+	// 주소 선택시 호출받은 등록패널이름을 가져와 해당패널에 주소 입력
 	protected void selectAddress(String parent) {
 		String zipcode;
 		String address;

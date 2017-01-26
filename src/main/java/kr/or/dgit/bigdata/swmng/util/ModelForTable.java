@@ -22,6 +22,7 @@ public class ModelForTable extends AbstractTableModel {
 		COL_NAMES = cOL_NAMES;
 	}
 
+	//컬럼 사이즈설정
 	public void resizeColumnWidth(JTable table) {
 		final TableColumnModel columnModel = table.getColumnModel();
 		for (int column = 0; column < table.getColumnCount(); column++) {
@@ -35,6 +36,7 @@ public class ModelForTable extends AbstractTableModel {
 		}
 	}
 
+	// 컬럼 높이 설정
 	public void resizeColumnHeight(JTable table) {
 		for (int row = 0; row < table.getRowCount(); row++) {
 			int rowHeight = table.getRowHeight();
@@ -48,6 +50,7 @@ public class ModelForTable extends AbstractTableModel {
 		}
 	}
 
+	// 쎌 정렬
 	public void tableCellAlignment(JTable table, int align, int... idx) {
 		DefaultTableCellRenderer dtcr = new DefaultTableCellRenderer();
 		dtcr.setHorizontalAlignment(align);
@@ -57,6 +60,7 @@ public class ModelForTable extends AbstractTableModel {
 		}
 	}
 
+	// 테이블 헤더 정렬
 	public void tableHeaderAlignment(JTable table) {
 		DefaultTableCellRenderer renderer = (DefaultTableCellRenderer) table.getTableHeader().getDefaultRenderer();
 		renderer.setHorizontalAlignment(SwingConstants.CENTER);
@@ -71,7 +75,6 @@ public class ModelForTable extends AbstractTableModel {
 
 	@Override
 	public int getRowCount() {
-		// TODO Auto-generated method stub
 		return data.length;
 	}
 

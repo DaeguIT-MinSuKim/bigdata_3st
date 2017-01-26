@@ -42,7 +42,26 @@ public class CreateDatabaseAuto {
 	public static SqlSession openSession() {
 		return getSqlSessionForReset().openSession();
 	}
+	// root계정으로 데이터베이스 접속
+		public static SqlSessionFactory getSqlSessionForReset() {
+			// 초기화시 필요한 데이터베이스 root계정 정보
+			String user = "root";
+			String password = "rootroot";
+			String databasenameURL = "jdbc:mysql://localhost:3306";
+			String dbDriver = "com.mysql.jdbc.Driver";
 
+			if (sqlSessionForReset == null) {
+				DataSource dataSource = new PooledDataSource(dbDriver, databasenameURL, user, password);
+				TransactionFactory transactionFactory = new JdbcTransactionFactory();
+				Configuration configuration = new Configuration(
+						new Environment("development", transactionFactory, dataSource));
+				sqlSessionForReset = new SqlSessionFactoryBuilder().build(configuration);
+			}
+			return sqlSessionForReset;
+		}
+
+		
+		
 	// 데이터베이스 초기화
 	public void resetDB() {
 		try {
@@ -73,6 +92,8 @@ public class CreateDatabaseAuto {
 		JOptionPane.showMessageDialog(null, "데이터베이스 초기화가 완료되었습니다.");
 	}
 
+	
+	
 	// 소스폴더 이미지 파일 mysql폴더로 복사
 	private void copyImgAndQueryToUploads() throws IOException, URISyntaxException {
 		makeDirInUploads("");
@@ -87,23 +108,7 @@ public class CreateDatabaseAuto {
 		}
 	}
 
-	// root계정으로 데이터베이스 접속
-	public static SqlSessionFactory getSqlSessionForReset() {
-		// 초기화시 필요한 데이터베이스 root계정 정보
-		String user = "root";
-		String password = "rootroot";
-		String databasenameURL = "jdbc:mysql://localhost:3306";
-		String dbDriver = "com.mysql.jdbc.Driver";
-
-		if (sqlSessionForReset == null) {
-			DataSource dataSource = new PooledDataSource(dbDriver, databasenameURL, user, password);
-			TransactionFactory transactionFactory = new JdbcTransactionFactory();
-			Configuration configuration = new Configuration(
-					new Environment("development", transactionFactory, dataSource));
-			sqlSessionForReset = new SqlSessionFactoryBuilder().build(configuration);
-		}
-		return sqlSessionForReset;
-	}
+	
 
 	// 데이터베이스에서 자료 백업 1/2 단계
 	public synchronized void backupFromDB() {

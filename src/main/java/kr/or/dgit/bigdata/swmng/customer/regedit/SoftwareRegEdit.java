@@ -51,6 +51,8 @@ public class SoftwareRegEdit extends JPanel implements ActionListener, RegEditIn
 	private JPanel previewPanel;
 
 	@SuppressWarnings("unchecked")
+	// 등록과 수정패널 동시 사용위해 버튼 액션 값 받아올 e
+	// 수정시 해당하는 컬럼 순번 받아올 flag 지정
 	public SoftwareRegEdit(String e, int flag) {
 		setLayout(new BorderLayout(0, 0));
 
@@ -198,6 +200,7 @@ public class SoftwareRegEdit extends JPanel implements ActionListener, RegEditIn
 		AddPanel.add(tfSellPrice, gbc_tfSellPrice);
 
 		tfSellPrice.addKeyListener(new KeyAdapter() {
+			// 판매가격 숫자만 입력 정규식
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (tfSellPrice.getText().matches(".*\\D+.*")) {
@@ -208,6 +211,7 @@ public class SoftwareRegEdit extends JPanel implements ActionListener, RegEditIn
 			}
 		});
 		tfSupPrice.addKeyListener(new KeyAdapter() {
+			// 공급가 숫자만 입력 정규식
 			@Override
 			public void keyPressed(KeyEvent e) {
 				if (tfSupPrice.getText().matches(".*\\D+.*")) {
@@ -385,7 +389,7 @@ public class SoftwareRegEdit extends JPanel implements ActionListener, RegEditIn
 				try {
 					// 수정할 데이터의 이미지값을 변경시 새로운 이미지로
 					// 수정할 데이터의 이미지값을 변경하지 않을시 기존 이미지 보존
-					// (SoftwareMapper.xml에 insert쿼리 참조)
+					// <choose>문법 (SoftwareMapper.xml에 insert쿼리 참조)
 					if (jfc.getSelectedFile() == null) {
 						SoftwareService.getInstance().updateItem(new Software(Integer.parseInt(tfNo.getText()),
 								cmbCategory.getSelectedItem() + "", tfTitle.getText().trim(),

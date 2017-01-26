@@ -1,4 +1,7 @@
 ﻿-- SW판매관리
+DROP SCHEMA IF EXISTS swMng;
+
+-- SW판매관리
 CREATE SCHEMA if not exists swMng;
 
 -- 유저 생성
@@ -7,12 +10,16 @@ grant select, insert, update, delete on swmng.* to 'user_mng' identified by 'roo
 -- 데이터베이스 선택
 use swMng;
 
--- 테이블 초기화
-drop table if exists software;
-drop table if exists buyer;
-drop table if exists sale;
-drop table if exists member;
-drop table if exists company;
+-- POST 테이블 없을시 생성
+CREATE TABLE if not exists post ( 
+	zipcode CHAR(5)      NULL COMMENT '우편번호' , -- 우편번호 
+	sido VARCHAR(20)	 NULL COMMENT '시도' , -- 시도   
+	sigungu VARCHAR(20)  NULL COMMENT '시군구' , -- 시군구  
+	doro VARCHAR(80) 	 NULL COMMENT '도로명' , -- 도로명  
+	building1 int(5)     NULL COMMENT '지번1' , -- 지번1  
+	building2 int(5)     NULL COMMENT '지번2' -- 지번2  
+) 
+COMMENT '우편번호';
 
 -- 공급회사
 CREATE TABLE company (

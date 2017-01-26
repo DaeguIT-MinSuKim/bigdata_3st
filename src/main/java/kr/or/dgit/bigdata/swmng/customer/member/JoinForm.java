@@ -53,16 +53,15 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 	private JButton selectPic;
 	private JFileChooser jfc;
 	private JXComboBox cmbEmail;
+	private String[] email = { "nate.com", "naver.com", "daum.net", "gmail.com", "yahoo.com" };
+	// 패스워드일치와 아이디 중복여부를 확인할 boolean 변수
 	private boolean pwConfirmationCheck = false;
 	private boolean idDuplicationCheck = true;
-	private String[] email = { "nate.com", "naver.com", "daum.net", "gmail.com", "yahoo.com" };
 
-	/**
-	 * Create the panel.
-	 */
 	public JoinForm() {
 		setLayout(null);
 		try {
+			// 회원가입 화면 배경설정
 			img = ImageIO.read(getClass().getResource("/img/join.png"));
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
@@ -76,6 +75,7 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 		tfId.addFocusListener(this);
 
 		tfPw = new JPasswordField();
+		// 첫 번째 패스워드 칸에 키리스너를 추가하여 패스워드 일치여부 확인
 		tfPw.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -93,6 +93,7 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 		ckIdMsg.setFont(new Font("맑은 고딕", Font.BOLD, 9));
 
 		tfPwCk = new JPasswordField();
+		// 두번째 패스워드 칸에도 키리스너를 추가하여 일치여부 확인
 		tfPwCk.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
@@ -117,6 +118,7 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 		btnJoin = new JButton();
 		btnJoin.addActionListener(this);
 
+		// 회원사진 등록위한 파일츄져 생성
 		jfc = new JFileChooser();
 		jfc.setFileFilter(new FileNameExtensionFilter("JPG & GIF & PNG Images", "jpg", "gif", "png"));
 		jfc.setMultiSelectionEnabled(false);
@@ -127,7 +129,6 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 		add(tfPw);
 		add(tfPwCk);
 		add(tfEmail);
-
 		add(selectPic);
 		add(btnJoin);
 		add(btnCancel);
@@ -229,10 +230,14 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 	}
 
 	private void selectImage() {
+		// 이미지 선택 확인시 액션
 		if (jfc.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+			// 이미지 경로 가져와 . 기준으로 스플릿
 			String[] path = jfc.getSelectedFile().getPath().split("\\.");
+			// 확장자가 맞지 않으면 파일 선택 null로 설정하고 메세지 팝업
 			if (path[path.length - 1].equals("jpg") || path[path.length - 1].equals("gif")
 					|| path[path.length - 1].equals("png")) {
+				// 확장자가 일치하면 미리보기에 이미지 표시
 				selectPic.setIcon(new ImageIcon(new ImageIcon(jfc.getSelectedFile().getPath()).getImage()
 						.getScaledInstance(selectPic.getWidth(), selectPic.getHeight(), java.awt.Image.SCALE_SMOOTH)));
 			} else {
@@ -243,6 +248,8 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 	}
 
 	private void joinMemberAction() {
+		// 아이디 중복여부와 비밀번호일치여부가 트루이면 등록 진행
+		// 아이디 3/8자리 영문숫자 정규식 표현 시작은 영문으로.
 		if (idDuplicationCheck == true && pwConfirmationCheck == true && tfId.getText().trim() != null
 				&& tfId.getText().trim().matches("^[A-Za-z]{1}[A-Za-z0-9]{3,7}$")) {
 			try {
@@ -253,6 +260,7 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 					MemberService.getInstance()
 							.insertMember(new Member(tfId.getText().trim(), tfPw.getText(),
 									tfEmail.getText().trim() + "@" + cmbEmail.getSelectedItem(),
+									// 선택한 파일경로를 파일로 변환, 그리고 byte로 읽어와 DB등록
 									Files.readAllBytes(new File(jfc.getSelectedFile().toString()).toPath())));
 				}
 				new LoginForm().setMemberId(tfId.getText());
@@ -261,7 +269,7 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 				mainFrame.getSidePanel().setVisible(true);
 				removeAll();
 				setLayout(new BorderLayout());
-				add(new LoggedIn(), BorderLayout.CENTER);
+				add(new LoginInfo(), BorderLayout.CENTER);
 				getTopLevelAncestor().setSize(500, 394);
 				revalidate();
 				repaint();
@@ -275,12 +283,14 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 	}
 
 	private void checkPwConfirmation() {
+		// 비밀번호 필드 일치 여부
 		if (tfPw.getText().equals(tfPwCk.getText()) && !tfPw.getText().equals("")) {
 			ckPw.setIcon(new ImageIcon(getClass().getResource("/img/success.png")));
 			ckPwMsg.setForeground(Color.GREEN);
 			ckPwMsg.setText("비밀번호가 일치합니다");
 			pwConfirmationCheck = true;
 		} else {
+			// 일치 하지 않을시
 			ckPw.setIcon(new ImageIcon(getClass().getResource("/img/fail.png")));
 			ckPwMsg.setForeground(Color.RED);
 			ckPwMsg.setText("비밀번호가 일치하지 않습니다");
@@ -296,6 +306,7 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 
 	@Override
 	public void focusGained(FocusEvent e) {
+		// 아이디 일치여부 확인 메세지 설정
 		if (e.getSource() == tfId) {
 			ckId.setIcon(null);
 			ckIdMsg.setText("");
@@ -307,6 +318,8 @@ public class JoinForm extends JLayeredPane implements ActionListener, FocusListe
 
 	@Override
 	public void focusLost(FocusEvent e) {
+		// 아이디창 포커스 잃을시 아이디 비교 후 중복여부 확인
+		// 아이디 사용가능여부 메세지 표시
 		if (e.getSource() == tfId) {
 			List<Member> list = MemberService.getInstance().selectAllId();
 			for (Member m : list) {

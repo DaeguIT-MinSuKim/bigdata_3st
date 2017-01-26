@@ -93,7 +93,6 @@
 		where title=#{title} 
 	</select>
 
-	<!-- 곽문한추가 -->
 	<select id="selectSoftwareBytitle" resultType="Software">
 		select distinct
 		title from software ORDER BY title
